@@ -1,0 +1,4 @@
+{"_id":{"$oid":"5af9fdfa9c95c622cc433a3b"},"name":"Originals","brand":"Adidas","description":"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus nec iaculis mauris","size":43,"price":120,"__v":0}
+{"_id":{"$oid":"5afa9d78f85d6622b47426f6"},"name":"Pump","brand":"Reebok","description":"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus nec iaculis mauris","size":38,"price":20,"__v":0}
+{"_id":{"$oid":"5afac56e85ce851d98fa5d5e"},"name":"Adsad","brand":"Adidas","description":"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus nec iaculis mauris","size":34,"price":40,"__v":0}
+{"_id":{"$oid":"5afb326ed448090f70844059"},"name":"Air","brand":"Nike","description":"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus nec iaculis mauris","size":43,"price":90,"__v":0}
