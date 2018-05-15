@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div>
     <h1 class="title">Products</h1>
     <div class="media" v-if="products.length > 0">
       <div class="card" v-for="product in products" :key="product">
@@ -42,7 +42,3 @@ export default {
   }
 }
 </script>
-
-<style lang="css">
-  @import '../../node_modules/bulma/css/bulma.css';
-</style>

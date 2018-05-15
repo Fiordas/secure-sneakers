@@ -1,6 +1,6 @@
 <template>
   <div class="products">
-    <h1>Product Panel</h1>
+    <h1 class="title">Product Panel</h1>
     <div v-if="products.length > 0" class="table-wrap">
       <div>
         <router-link v-bind:to="{ name: 'AddProduct' }" class="">Add Product</router-link>
