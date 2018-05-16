@@ -10,10 +10,11 @@ An e-commerce web application that sells various sneakers online.
 For MongoDB:
 1. Install MongoDB
 2. Set up the MongoDB environment
-3. Import data (ref: https://docs.mongodb.com/manual/reference/program/mongoimport/#use) 
+3. Start MongoDB, with run `mongod`(ref: https://docs.mongodb.com/manual/tutorial/install-mongodb-on-windows/#run-mongodb-community-edition)
+4. Import data (ref: https://docs.mongodb.com/manual/reference/program/mongoimport/#use)
       * Open `data` directory in command prompt with administrator permissions
       * Run `mongoimport --db secure-sneakers --collection products --file products.json` to import product collection (if command is unrecognized - add `C:\Program Files\MongoDB\Server\3.6\bin` to environment variables)
-4. Start MongoDB (ref: https://docs.mongodb.com/manual/tutorial/install-mongodb-on-windows/#run-mongodb-community-edition)
+
 
 For server (back-end):
 1. Install dependencies:
