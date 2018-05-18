@@ -48,7 +48,7 @@ export default {
   },
   methods: {
     async getProducts () {
-      const response = await ProductsService.fetchPosts()
+      const response = await ProductsService.fetchProducts()
       this.products = response.data.products
     },
     async deleteProduct (id) {

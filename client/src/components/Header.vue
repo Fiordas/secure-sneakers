@@ -18,8 +18,6 @@
 </template>
 
 <style lang="css">
-  @import '../../node_modules/bulma/css/bulma.css';
-
   nav {
     margin-bottom: 30px;
   }
