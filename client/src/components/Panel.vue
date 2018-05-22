@@ -14,7 +14,7 @@
           <td>Price</td>
           <td width="100" align="center">Action</td>
         </tr>
-        <tr v-for="product in products" :key="product">
+        <tr v-for="product in products" :key="product._id">
           <td>{{ product.name }}</td>
           <td>{{ product.brand }}</td>
           <td>{{ product.description }}</td>

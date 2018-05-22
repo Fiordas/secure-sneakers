@@ -1,12 +1,12 @@
 <template>
-  <nav class="navbar is-primary">
+  <nav class="navbar is-light has-shadow">
     <div class="navbar-menu container">
-      <div class="navbar-start">
-        <router-link to="/" class="navbar-item">Home</router-link>
-        <router-link to="/products" class="navbar-item">Shop</router-link>
+      <div class="navbar-start has-text-black-ter">
+        <router-link to="/" class="navbar-item is-uppercase has-text-black-ter">Home</router-link>
+        <router-link to="/products" class="navbar-item is-uppercase has-text-black-ter">Shop</router-link>
       </div>
 
-      <div class="navbar-end">
+      <div class="navbar-end is-dark">
         <div class="navbar-item">
             <p class="control">
               <router-link to="/panel" class="navbar-item button is-link">Admin Panel</router-link>
