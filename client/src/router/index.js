@@ -32,7 +32,7 @@ export default new Router({
       component: AddProduct
     },
     {
-      path: '/panel/:id',
+      path: '/panel/edit/:id',
       name: 'EditProduct',
       component: EditProduct
     }
