@@ -1,5 +1,5 @@
 <template>
-  <div class="products">
+  <div>
     <h1 class="title">Product Panel</h1>
     <div v-if="products.length > 0" class="table-wrap">
       <div>
@@ -37,7 +37,7 @@
 <script>
 import ProductsService from '@/services/ProductsService'
 export default {
-  name: 'products',
+  name: 'Panel',
   data () {
     return {
       products: []

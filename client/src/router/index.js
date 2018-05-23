@@ -6,6 +6,7 @@ import Panel from '@/components/Panel'
 import AddProduct from '@/components/AddProduct'
 import EditProduct from '@/components/EditProduct'
 import SignUp from '@/components/auth/SignUp'
+import SignIn from '@/components/auth/SignIn'
 
 Vue.use(Router)
 
@@ -41,6 +42,11 @@ export default new Router({
       path: '/signup',
       name: 'SignUp',
       component: SignUp
+    },
+    {
+      path: '/signin',
+      name: 'SignIn',
+      component: SignIn
     }
   ]
 })

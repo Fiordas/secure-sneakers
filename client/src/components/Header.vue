@@ -8,9 +8,11 @@
 
       <div class="navbar-end is-dark">
         <div class="navbar-item">
-            <p class="control">
-              <router-link to="/panel" class="navbar-item button is-link">Admin Panel</router-link>
-            </p>
+          <router-link to="/signup" class="navbar-item is-uppercase">Sign Up</router-link>
+          <router-link to="/signin" class="navbar-item is-uppercase">Sign In</router-link>
+          <p class="control">
+            <router-link to="/panel" class="navbar-item button is-link">Admin Panel</router-link>
+          </p>
         </div>
       </div>
     </div>

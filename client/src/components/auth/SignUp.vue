@@ -73,8 +73,7 @@ export default {
         email: this.email,
         firstName: this.firstName,
         lastName: this.lastName,
-        password: this.password,
-        confirmPassword: this.confirmPassword
+        password: this.password
       }
       console.log(formData)
       UsersService.addUser(formData)
