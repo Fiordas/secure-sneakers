@@ -1,14 +1,15 @@
-var express = require('express');
-var router = express.Router();
-var User = require('../models/user');
+const express = require('express');
+const jwt = require('jsonwebtoken');
+const router = express.Router();
+const User = require('../models/user');
 
 router.post('/signup', (req, res) => {
-    var email = req.body.email;
-    var firstName = req.body.firstName;
-    var lastName = req.body.lastName;
-    var password = req.body.password;
-    var confirmPassword = req.body.confirmPassword;
-    var userData = new User({
+    const email = req.body.email;
+    const firstName = req.body.firstName;
+    const lastName = req.body.lastName;
+    const password = req.body.password;
+    const confirmPassword = req.body.confirmPassword;
+    const userData = new User({
         email: email,
         firstName: firstName,
         lastName: lastName,
@@ -27,18 +28,22 @@ router.post('/signup', (req, res) => {
     })
 })
 
-router.post('/signin', (req, res, next) => {
+router.post('/signin', (req, res) => {
     User.authenticate(req.body.email, req.body.password, function (error, user) {
         if (error || !user) {
-            var err = new Error('Wrong email or password.');
-            err.status = 401;
-            return next(err);
+            res.json({ success: false, message: 'Wrong email or password.' });
         } else {
             //req.session.userId = user._id;
-            res.send({
+
+            const token = jwt.sign({
+                id: user._id
+            }, 'secsneakers', { expiresIn: '1h' });
+
+            res.json({
                 success: true,
-                message: 'User sign in successful!'
-            })
+                message: 'User sign in successful!',
+                token: token
+            });
         }
     });
 })

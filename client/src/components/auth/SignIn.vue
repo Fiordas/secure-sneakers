@@ -41,12 +41,15 @@ export default {
       console.log(formData)
       UsersService.authenticateUser(formData)
         .then(res => {
-          console.log(res)
-          this.$router.push('/')
+          if (res.data.success) {
+            console.log(res)
+            this.$router.push('/')
+          } else {
+            console.log(res)
+            this.error = res.data.message
+          }
         })
-        .catch(error => {
-          this.error = error.message
-        })
+        .catch(error => console.log(error))
     }
   }
 }
