@@ -6,7 +6,7 @@ var ProductSchema = new Schema({
     name: String,
     brand: String,
     description: String,
-    size: Number,
+    stock: [{ size: Number, quantity: Number }],
     price: Number
 });
 

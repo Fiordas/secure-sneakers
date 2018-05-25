@@ -4,7 +4,7 @@ var Product = require('../models/product');
 
 //fetch products from MongoDB
 router.get('/', (req, res) => {
-    Product.find({}, 'name brand description size price', function (error, products) {
+    Product.find({}, 'name brand description stock price', function (error, products) {
         if (error) { console.error(error); }
         res.send({
             products: products
@@ -17,13 +17,13 @@ router.post('/', (req, res) => {
     var name = req.body.name;
     var brand = req.body.brand;
     var description = req.body.description;
-    var size = req.body.size;
+    var stock = req.body.stock;
     var price = req.body.price;
     var new_product = new Product({
         name: name,
         brand: brand,
         description: description,
-        size: size,
+        stock: stock,
         price: price
     })
 
