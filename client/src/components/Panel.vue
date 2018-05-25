@@ -1,30 +1,46 @@
 <template>
   <div>
     <h1 class="title">Product Panel</h1>
-    <div v-if="products.length > 0" class="table-wrap">
+    <div v-if="products.length > 0">
       <div>
         <router-link v-bind:to="{ name: 'AddProduct' }" class="">Add Product</router-link>
       </div>
-      <table>
-        <tr>
-          <td>Name</td>
-          <td>Brand</td>
-          <td width="550">Description</td>
-          <td>Size</td>
-          <td>Price</td>
-          <td width="100" align="center">Action</td>
-        </tr>
-        <tr v-for="product in products" :key="product._id">
-          <td>{{ product.name }}</td>
-          <td>{{ product.brand }}</td>
-          <td>{{ product.description }}</td>
-          <td>{{ product.size }}</td>
-          <td>{{ product.price }}</td>
-          <td align="center">
-            <router-link v-bind:to="{ name: 'EditProduct', params: { id: product._id } }">Edit</router-link> |
-            <a href="#" @click="deleteProduct(product._id)">Delete</a>
-          </td>
-        </tr>
+      <table class="table is-striped is-hoverable is-fullwidth">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Brand</th>
+            <th>Description</th>
+            <th>Stock</th>
+            <th>Price</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="product in products" :key="product._id">
+            <td>{{ product.name }}</td>
+            <td>{{ product.brand }}</td>
+            <td>{{ product.description }}</td>
+            <td>
+              <table class="table is-narrow">
+                <tr><th>Size</th><th>Quantity</th></tr>
+                <template v-for="stocks in product.stock">
+                  <template v-if="stocks.quantity > 0">
+                    <tr>
+                      <td>{{stocks.size}}</td>
+                      <td>{{stocks.quantity}}</td>
+                    </tr>
+                  </template>
+                </template>
+              </table>
+            </td>
+            <td>{{ product.price }}</td>
+            <td align="center">
+              <router-link v-bind:to="{ name: 'EditProduct', params: { id: product._id } }">Edit</router-link> |
+              <a href="#" @click="deleteProduct(product._id)">Delete</a>
+            </td>
+          </tr>
+        </tbody>
       </table>
     </div>
     <div v-else>
@@ -59,38 +75,3 @@ export default {
   }
 }
 </script>
-<style type="text/css">
-  .table-wrap {
-    width: 60%;
-    margin: 0 auto;
-    text-align: center;
-  }
-  table th, table tr {
-    text-align: left;
-  }
-  table thead {
-    background: #f2f2f2;
-  }
-  table tr td {
-    padding: 10px;
-  }
-  table tr:nth-child(odd) {
-    background: #f2f2f2;
-  }
-  table tr:nth-child(1) {
-    background: #4d7ef7;
-    color: #fff;
-  }
-  a {
-    color: #4d7ef7;
-    text-decoration: none;
-  }
-  a.add_post_link {
-    background: #4d7ef7;
-    color: #fff;
-    padding: 10px 80px;
-    text-transform: uppercase;
-    font-size: 12px;
-    font-weight: bold;
-  }
-</style>
