@@ -1,24 +1,54 @@
 <template>
-  <div class="products">
-    <h1>Edit Product</h1>
-    <div class="form">
-      <div>
-        <input type="text" name="name" placeholder="NAME" v-model="name">
+  <div>
+    <h1 class="title">Edit Product</h1>
+    <div class="column is-one-third">
+      <div class="field">
+        <label class="label">Name</label>
+        <div class="control">
+          <input class="input" type="text" placeholder="Name" v-model="name">
+        </div>
+      </div>
+      <div class="field">
+        <label class="label">Brand</label>
+        <div class="control">
+          <input class="input" type="text" placeholder="Brand" v-model="brand">
+        </div>
+      </div>
+      <div class="field">
+        <label class="label">Description</label>
+        <div class="control">
+          <textarea class="textarea" placeholder="Description" v-model="description"></textarea>
+        </div>
+      </div>
+      <div class="field">
+        <div class="label">
+          <label class="label">Size quantity in stock</label>
+        </div>
+        <div class="column">
+          <div class="columns is-multiline">
+            <div class="column is-one-third" v-for="(items, index) in stock" :key="index">
+              <div class="field is-expanded">
+                <div class="field has-addons">
+                  <p class="control">
+                    <a class="button is-static">{{items.size}}</a>
+                  </p>
+                  <p class="control is-expanded">
+                    <input class="input" type="number" v-model="items.quantity">
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="field">
+        <label class="label">Unit price</label>
+        <div class="control">
+          <input class="input" type="number" v-model="price">
+        </div>
       </div>
       <div>
-        <input type="text" name="brand" placeholder="BRAND" v-model="brand">
-      </div>
-      <div>
-        <textarea rows="15" cols="15" placeholder="DESCRIPTION" v-model="description"></textarea>
-      </div>
-      <div>
-        <input type="number" name="size" placeholder="SIZE" v-model="size">
-      </div>
-      <div>
-        <input type="number" name="price" placeholder="PRICE" v-model="price">
-      </div>
-      <div>
-        <button class="app_product_btn" @click="updateProduct">Update</button>
+        <button class="button is-primary" @click="updateProduct">Update</button>
       </div>
     </div>
   </div>
@@ -33,7 +63,7 @@ export default {
       name: '',
       brand: '',
       description: '',
-      size: 0,
+      stock: [ ],
       price: 0
     }
   },
@@ -48,7 +78,7 @@ export default {
       this.name = response.data.name
       this.brand = response.data.brand
       this.description = response.data.description
-      this.size = response.data.size
+      this.stock = response.data.stock
       this.price = response.data.price
     },
     async updateProduct () {
@@ -57,35 +87,11 @@ export default {
         name: this.name,
         brand: this.brand,
         description: this.description,
-        price: this.price,
-        size: this.size
+        stock: this.stock,
+        price: this.price
       })
       this.$router.push({ name: 'Panel' })
     }
   }
 }
 </script>
-
-<style type="text/css">
-  .form input, .form textarea {
-    width: 500px;
-    padding: 10px;
-    border: 1px solid #e0dede;
-    outline: none;
-    font-size: 12px;
-  }
-  .form div {
-    margin: 20px;
-  }
-  .app_post_btn {
-    background: #4d7ef7;
-    color: #fff;
-    padding: 10px 80px;
-    text-transform: uppercase;
-    font-size: 12px;
-    font-weight: bold;
-    width: 520px;
-    border: none;
-    cursor: pointer;
-  }
-</style>

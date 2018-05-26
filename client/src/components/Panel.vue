@@ -24,9 +24,9 @@
             <td>
               <table class="table is-narrow">
                 <tr><th>Size</th><th>Quantity</th></tr>
-                <template v-for="stocks in product.stock">
+                <template v-for="(stocks, index) in product.stock">
                   <template v-if="stocks.quantity > 0">
-                    <tr>
+                    <tr v-bind:key="index">
                       <td>{{stocks.size}}</td>
                       <td>{{stocks.quantity}}</td>
                     </tr>

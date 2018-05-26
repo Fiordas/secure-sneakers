@@ -41,7 +41,7 @@ router.post('/', (req, res) => {
 // Fetch single product
 router.get('/edit/:id', (req, res) => {
     var db = req.db;
-    Product.findById(req.params.id, 'name brand description size price', function (error, product) {
+    Product.findById(req.params.id, 'name brand description stock price', function (error, product) {
         if (error) { console.error(error); }
         res.send(product)
     })
@@ -50,13 +50,13 @@ router.get('/edit/:id', (req, res) => {
 // Update product
 router.put('/:id', (req, res) => {
     var db = req.db;
-    Product.findById(req.params.id, 'name brand description size price', function (error, product) {
+    Product.findById(req.params.id, 'name brand description stock price', function (error, product) {
         if (error) { console.error(error); }
 
         product.name = req.body.name
         product.brand = req.body.brand
         product.description = req.body.description
-        product.size = req.body.size
+        product.stock = req.body.stock
         product.price = req.body.price
         product.save(function (error) {
             if (error) {
