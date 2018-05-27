@@ -1,44 +1,54 @@
 <template>
-  <div>
-    <div>
+  <div class="column is-4 is-offset-4">
+    <div class="box" id="signupbox">
       <form @submit.prevent="onSubmit">
-        <div>
-          <label>E-Mail</label>
+        <div class="field">
+          <label class="label">E-mail</label>
           <input
+            class="input"
             type="email"
             id="email"
+            placeholder="E-mail"
             v-model="email">
         </div>
-        <div>
-          <label>First Name</label>
+        <div class="field">
+          <label class="label">First Name</label>
           <input
+            class="input"
             type="text"
             id="firstName"
+            placeholder="First name"
             v-model.number="firstName">
         </div>
-        <div>
-          <label>Last Name</label>
+        <div class="field">
+          <label class="label">Last Name</label>
           <input
+            class="input"
             type="text"
             id="lastName"
+            placeholder="Last name"
             v-model.number="lastName">
         </div>
-        <div>
-          <label>Password</label>
+        <div class="field">
+          <label class="label">Password</label>
           <input
+            class="input"
             type="password"
             id="password"
+            placeholder="Password"
             v-model="password">
         </div>
-        <div>
-          <label>Confirm Password</label>
+        <div class="field">
+          <label class="label">Confirm Password</label>
           <input
+            class="input"
             type="password"
             id="confirm-password"
+            placeholder="Repeat password"
             v-model="confirmPassword">
         </div>
-        <div class="submit">
-          <button type="submit">Submit</button>
+        <div class="field submit">
+          <button class="button is-primary" type="submit">Submit</button>
         </div>
       </form>
     </div>

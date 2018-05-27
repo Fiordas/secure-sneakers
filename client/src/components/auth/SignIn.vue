@@ -1,24 +1,30 @@
 <template>
-  <div>
+  <div class="column is-4 is-offset-4">
+    <div class="box">
       <form @submit.prevent="onSubmit">
-        <div>
-          <label>E-mail</label>
+        <div class="field">
+          <label class="label">E-mail</label>
           <input
+            class="input"
             type="email"
+            placeholder="E-mail"
             v-model="email">
         </div>
-        <div>
-          <label>Password</label>
+        <div class="field">
+          <label class="label">Password</label>
           <input
+            class="input"
             type="password"
+            placeholder="Password"
             v-model="password">
         </div>
-        <div class="submit">
-          <button type="submit">Submit</button>
+        <div class="field submit">
+          <button class="button is-primary" type="submit">Submit</button>
         </div>
       </form>
     <p>{{error}}</p>
   </div>
+</div>
 </template>
 
 <script>
