@@ -1,19 +1,18 @@
 <template>
   <div class="column is-4 is-offset-4">
-    <div class="box" id="signupbox">
+    <div class="box">
       <form @submit.prevent="onSubmit">
         <p v-if="errors.length">
           <b>Please correct the following error(s):</b>
-        <ul>
-          <li v-for="error in errors" :key="error.id">{{ error }}</li>
-        </ul>
+          <ul>
+            <li v-for="error in errors" :key="error.id">{{ error }}</li>
+          </ul>
         </p>
         <div class="field">
           <label class="label">E-mail</label>
           <input
             class="input"
             type="email"
-            id="email"
             placeholder="E-mail"
             v-model="email" required autofocus>
         </div>
@@ -22,7 +21,6 @@
           <input
             class="input"
             type="text"
-            id="firstName"
             placeholder="First name"
             v-model.number="firstName" required pattern=".{3,}" title="3 characters minimum">
         </div>
@@ -31,13 +29,12 @@
           <input
             class="input"
             type="text"
-            id="lastName"
             placeholder="Last name"
             v-model.number="lastName" required pattern=".{3,}" title="3 characters minimum">
         </div>
         <div class="field">
           <label class="label">Password</label>
-          <vue-password v-model="password" classes="input" id="password" placeholder="Password" required>
+          <vue-password v-model="password" classes="input" placeholder="Password" required>
             <template slot="password-toggle" slot-scope="props">
               <button class="VuePassword__Toggle"
                       type="button"
@@ -50,7 +47,7 @@
         </div>
         <div class="field">
           <label class="label">Confirm Password</label>
-          <vue-password v-model="confirmPassword" classes="input" id="confirm-password" placeholder="Confirm password" required>
+          <vue-password v-model="confirmPassword" classes="input" placeholder="Confirm password" required>
             <template slot="password-toggle" slot-scope="props">
               <button class="VuePassword__Toggle"
                       type="button"
@@ -104,14 +101,6 @@ export default {
       }
       console.log(formData)
       this.$store.dispatch('signUp', formData)
-
-      // set form to empty
-      this.email = ''
-      this.firstName = ''
-      this.lastName = ''
-      this.password = ''
-      this.confirmPassword = ''
-      alert('You have been registered, please sign in')
     }
   }
 }
