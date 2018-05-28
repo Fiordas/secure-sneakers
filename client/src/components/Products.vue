@@ -39,7 +39,7 @@
                     <p>{{ product.description }}</p>
                   </div>
                   <footer class="card-footer">
-                    <router-link to="" class="button is-primary is-uppercase">Details</router-link>
+                    <router-link v-bind:to="{ name: 'Details', params: { id: product._id } }" class="button is-primary is-uppercase">Details</router-link>
                   </footer>
                 </div>
               </div>

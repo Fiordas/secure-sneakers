@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Home from '@/components/Home'
 import Products from '@/components/Products'
+import Details from '@/components/Details'
 import Panel from '@/components/Panel'
 import AddProduct from '@/components/AddProduct'
 import EditProduct from '@/components/EditProduct'
@@ -22,6 +23,11 @@ export default new Router({
       path: '/products',
       name: 'Products',
       component: Products
+    },
+    {
+      path: '/details/:id',
+      name: 'Details',
+      component: Details
     },
     {
       path: '/panel',
