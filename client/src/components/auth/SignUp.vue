@@ -46,7 +46,6 @@
 </template>
 
 <script>
-import UsersService from '@/services/UsersService'
 export default {
   name: 'SignUp',
   data () {
@@ -76,9 +75,7 @@ export default {
         password: this.password
       }
       console.log(formData)
-      UsersService.addUser(formData)
-        .then(res => console.log(res))
-        .catch(error => console.log(error))
+      this.$store.dispatch('signUp', formData)
     }
   }
 }

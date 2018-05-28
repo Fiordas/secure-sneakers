@@ -17,12 +17,11 @@
           <button type="submit">Submit</button>
         </div>
       </form>
-    <p>{{error}}</p>
+    <p>{{ error }}</p>
   </div>
 </template>
 
 <script>
-import UsersService from '@/services/UsersService'
 export default {
   name: 'SignIn',
   data () {
@@ -39,17 +38,7 @@ export default {
         password: this.password
       }
       console.log(formData)
-      UsersService.authenticateUser(formData)
-        .then(res => {
-          if (res.data.success) {
-            console.log(res)
-            this.$router.push('/')
-          } else {
-            console.log(res)
-            this.error = res.data.message
-          }
-        })
-        .catch(error => console.log(error))
+      this.$store.dispatch('signIn', formData)
     }
   }
 }
