@@ -1,8 +1,8 @@
 <template>
   <div>
     Size:
-    <select v-model="selected" >
-      <option v-for="(s, index) in stock" v-if="s.quantity>0" :key="index">{{s.size}}</option>
+    <select>
+      <option v-for="s in stock" :key="s.id" v-if="s.quantity>0">{{s.size}}</option>
     </select>
     <br>
     <button v-on:click="counter += 1">Add to chart</button>
