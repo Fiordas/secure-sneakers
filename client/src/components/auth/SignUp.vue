@@ -37,21 +37,29 @@
         </div>
         <div class="field">
           <label class="label">Password</label>
-          <input
-            class="input"
-            type="password"
-            id="password"
-            placeholder="Password"
-            v-model="password" required pattern=".{6,}" title="6 characters minimum">
+          <vue-password v-model="password" classes="input" id="password" placeholder="Password" required>
+            <template slot="password-toggle" slot-scope="props">
+              <button class="VuePassword__Toggle"
+                      type="button"
+                      v-on:click = "props.toggle"
+                      v-text="props.type === 'password' ? 'SHOW' : 'HIDE'"
+              >
+              </button>
+            </template>
+          </vue-password>
         </div>
         <div class="field">
           <label class="label">Confirm Password</label>
-          <input
-            class="input"
-            type="password"
-            id="confirm-password"
-            placeholder="Confirm password"
-            v-model="confirmPassword" required pattern=".{6,}" title="6 characters minimum">
+          <vue-password v-model="confirmPassword" classes="input" id="confirm-password" placeholder="Confirm password" required>
+            <template slot="password-toggle" slot-scope="props">
+              <button class="VuePassword__Toggle"
+                      type="button"
+                      v-on:click = "props.toggle"
+                      v-text="props.type === 'password' ? 'SHOW' : 'HIDE'"
+              >
+              </button>
+            </template>
+          </vue-password>
         </div>
         <div class="field submit">
           <button class="button is-primary" type="submit">Submit</button>
@@ -62,13 +70,17 @@
 </template>
 
 <script>
+import VuePassword from 'vue-password'
 export default {
   name: 'SignUp',
+  components: {VuePassword},
   data () {
     return {
       email: '',
       firstName: '',
       lastName: '',
+      password: '',
+      confirmPassword: '',
       errors: []
     }
   },
