@@ -6,5 +6,8 @@ export default {
   },
   authenticateUser (params) {
     return Api().post('users/signin', params)
+  },
+  fetchUser (params) {
+    return Api().get('users/' + params.token)
   }
 }

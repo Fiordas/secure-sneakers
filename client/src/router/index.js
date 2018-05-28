@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import store from './../store'
 import Home from '@/components/Home'
 import Products from '@/components/Products'
 import Details from '@/components/Details'
@@ -32,17 +33,38 @@ export default new Router({
     {
       path: '/panel',
       name: 'Panel',
-      component: Panel
+      component: Panel,
+      beforeEnter (to, from, next) {
+        if (store.state.token) {
+          next()
+        } else {
+          next('/signin')
+        }
+      }
     },
     {
       path: '/panel/add',
       name: 'AddProduct',
-      component: AddProduct
+      component: AddProduct,
+      beforeEnter (to, from, next) {
+        if (store.state.token) {
+          next()
+        } else {
+          next('/signin')
+        }
+      }
     },
     {
       path: '/panel/edit/:id',
       name: 'EditProduct',
-      component: EditProduct
+      component: EditProduct,
+      beforeEnter (to, from, next) {
+        if (store.state.token) {
+          next()
+        } else {
+          next('/signin')
+        }
+      }
     },
     {
       path: '/signup',

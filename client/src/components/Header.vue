@@ -8,16 +8,32 @@
 
       <div class="navbar-end is-dark">
         <div class="navbar-item">
-          <router-link to="/signup" class="navbar-item is-uppercase">Sign Up</router-link>
-          <router-link to="/signin" class="navbar-item is-uppercase">Sign In</router-link>
+          <router-link v-if="!auth" to="/signup" class="navbar-item is-uppercase">Sign Up</router-link>
+          <router-link v-if="!auth" to="/signin" class="navbar-item is-uppercase">Sign In</router-link>
           <p class="control">
-            <router-link to="/panel" class="navbar-item button is-link">Admin Panel</router-link>
+            <router-link v-if="auth" to="/panel" class="navbar-item button is-link">Admin Panel</router-link>
           </p>
+          <button v-if="auth" @click="onLogout()" class="button is-primary">Logout</button>
         </div>
       </div>
     </div>
   </nav>
 </template>
+
+<script>
+export default {
+  computed: {
+    auth () {
+      return this.$store.getters.isAuthenticated
+    }
+  },
+  methods: {
+    onLogout () {
+      this.$store.dispatch('logout')
+    }
+  }
+}
+</script>
 
 <style lang="css">
   nav {

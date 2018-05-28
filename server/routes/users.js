@@ -21,9 +21,15 @@ router.post('/signup', (req, res) => {
         if (error) {
             console.log(error)
         } else {
+            const token = jwt.sign({
+                id: userData._id
+            }, 'secsneakers');
+
             res.send({
                 success: true,
                 message: 'User data saved successfully!',
+                token: token,
+                expiresIn: 3600,
                 userId: userData._id
             });
         }
@@ -35,20 +41,46 @@ router.post('/signin', (req, res) => {
         if (error || !user) {
             res.json({ success: false, message: 'Wrong email or password.' });
         } else {
-            //req.session.userId = user._id;
-
             const token = jwt.sign({
                 id: user._id
-            }, 'secsneakers', { expiresIn: '1h' });
+            }, 'secsneakers');
 
             res.json({
                 success: true,
                 message: 'User sign in successful!',
                 token: token,
+                expiresIn: 3600,
                 userId: user._id
             });
         }
     });
+});
+
+router.get('/:token', (req, res) => {
+    var token = req.params.token;
+    // decode token
+    if (token) {
+        // verifies secret and checks exp
+        jwt.verify(token, 'secsneakers', function(err, decoded) {
+            if (err) {
+                return res.json({ success: false, message: 'Failed to authenticate token.' });
+            } else {
+                // if everything is good, save to request for use in other routes
+                res.json({
+                    success: true,
+                    message: 'Token authentication successful!',
+                    decoded: decoded,
+                });
+            }
+        });
+    } else {
+        // if there is no token
+        // return an error
+        return res.status(403).send({
+            success: false,
+            message: 'No token provided.'
+        });
+    }
 });
 
 module.exports = router;

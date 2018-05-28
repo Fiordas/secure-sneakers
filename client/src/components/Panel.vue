@@ -61,6 +61,7 @@ export default {
   },
   mounted () {
     this.getProducts()
+    this.$store.dispatch('fetchUser')
   },
   methods: {
     async getProducts () {
