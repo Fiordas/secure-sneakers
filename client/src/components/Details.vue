@@ -1,13 +1,37 @@
 <template>
   <div>
-    Size:
-    <select>
-      <option v-for="s in stock" :key="s.id" v-if="s.quantity>0">{{s.size}}</option>
-    </select>
-    <br>
-    <button v-on:click="counter += 1">Add to chart</button>
-
-    <p>Total: {{ counter }} quantity.</p>
+    <div class="columns">
+      <div class="column is-two-thirds">
+        <figure class="image">
+          <img src="../assets/adidas-nmd-runner-triple-white.jpg">
+        </figure>
+      </div>
+      <div class="column">
+        <div class="">
+          <div class="">
+            <p class="title is-4">{{ name }}</p>
+            <p class="subtitle is-6">{{ brand }}</p>
+            <p>€ {{price}}</p>
+          </div>
+        </div>
+        <br>
+        <div class="field">
+          <label class="label">Size:</label>
+          <div class="select">
+            <select>
+              <option v-for="s in stock" :key="s.id" v-if="s.quantity>0">{{s.size}}</option>
+            </select>
+          </div>
+        </div>
+        <br>
+        <button class="button is-primary" v-on:click="counter += 1">Add to chart</button>
+        <p>Total: {{ counter }} quantity.</p>
+        <br>
+      </div>
+    </div>
+    <div>
+      <p>{{description}}</p>
+    </div>
   </div>
 </template>
 
