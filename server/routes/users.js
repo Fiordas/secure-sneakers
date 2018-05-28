@@ -15,18 +15,20 @@ router.post('/signup', (req, res) => {
         lastName: lastName,
         password: password,
         confirmPassword: confirmPassword
-    })
+    });
 
     userData.save(function (error) {
         if (error) {
             console.log(error)
+        } else {
+            res.send({
+                success: true,
+                message: 'User data saved successfully!',
+                userId: userData._id
+            });
         }
-        res.send({
-            success: true,
-            message: 'User data saved successfully!'
-        })
-    })
-})
+    });
+});
 
 router.post('/signin', (req, res) => {
     User.authenticate(req.body.email, req.body.password, function (error, user) {
@@ -42,10 +44,11 @@ router.post('/signin', (req, res) => {
             res.json({
                 success: true,
                 message: 'User sign in successful!',
-                token: token
+                token: token,
+                userId: user._id
             });
         }
     });
-})
+});
 
 module.exports = router;
