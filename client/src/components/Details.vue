@@ -1,6 +1,6 @@
 <template>
   <div class="modal is-active">
-    <div class="modal-background"></div>
+    <div class="modal-background" @click="$router.go(-1)"></div>
     <div class="modal-content">
       <div class="box is-radiusless">
         <div class="columns">

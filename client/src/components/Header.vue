@@ -6,7 +6,7 @@
         <router-link to="/products" class="navbar-item is-uppercase">Shop</router-link>
       </div>
 
-      <div class="navbar-end is-dark">
+      <div class="navbar-end">
         <div class="navbar-item">
           <router-link v-if="!auth" to="/signup" class="navbar-item is-uppercase">Sign Up</router-link>
           <router-link v-if="!auth" to="/signin" class="navbar-item is-uppercase">Sign In</router-link>
