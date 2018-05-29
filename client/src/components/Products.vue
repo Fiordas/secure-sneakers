@@ -38,9 +38,11 @@
                   <div class="content">
                     <p>{{ product.description }}</p>
                   </div>
-                  <footer class="card-footer">
-                    <router-link v-bind:to="{ name: 'Details', params: { id: product._id } }" class="button is-primary is-uppercase">Details</router-link>
-                  </footer>
+                  <router-link v-bind:to="{ name: 'Details', params: { id: product._id } }" class="button is-primary is-outlined">Details</router-link>
+                  <p class="buttons is-pulled-right">
+                    <router-link v-bind:to="{ name: 'Details', params: { id: product._id } }" class="button is-primary is-outlined"><i class="fa fa-heart"></i></router-link>
+                    <router-link v-bind:to="{ name: 'Details', params: { id: product._id } }" class="button is-primary is-outlined"><i class="fa fa-shopping-cart"></i></router-link>
+                  </p>
                 </div>
               </div>
             </div>
@@ -74,5 +76,4 @@ export default {
     }
   }
 }
-
 </script>

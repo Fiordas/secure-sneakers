@@ -10,10 +10,10 @@
         <div class="navbar-item">
           <router-link v-if="!auth" to="/signup" class="navbar-item is-uppercase">Sign Up</router-link>
           <router-link v-if="!auth" to="/signin" class="navbar-item is-uppercase">Sign In</router-link>
-          <p class="control">
-            <router-link v-if="auth" to="/panel" class="navbar-item button is-link">Admin Panel</router-link>
+          <p class="buttons">
+            <router-link v-if="auth" to="/panel" class="navbar-item button is-link is-outlined">Admin Panel</router-link>
+            <a v-if="auth" @click="onLogout()" class="navbar-item button is-primary is-outlined">Logout</a>
           </p>
-          <button v-if="auth" @click="onLogout()" class="button is-primary">Logout</button>
         </div>
       </div>
     </div>
