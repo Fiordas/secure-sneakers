@@ -23,12 +23,10 @@ export default new Router({
     {
       path: '/products',
       name: 'Products',
-      component: Products
-    },
-    {
-      path: '/details/:id',
-      name: 'Details',
-      component: Details
+      component: Products,
+      children: [
+        { path: '/details/:id', component: Details, name: 'Details' }
+      ]
     },
     {
       path: '/panel',

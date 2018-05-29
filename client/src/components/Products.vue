@@ -45,13 +45,14 @@
               </div>
             </div>
           </div>
+          <router-view/>
         </div>
         <div v-else>
           There are no products..<br /><br />
         </div>
+      </div>
     </div>
   </div>
-</div>
 </template>
 
 <script>
