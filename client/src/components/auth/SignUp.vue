@@ -36,7 +36,7 @@
             </div>
             <div class="field">
               <label class="label">Password</label>
-              <vue-password v-model="password" classes="input" placeholder="Password" required>
+              <vue-password v-model="password" classes="input" placeholder="Password" required pattern=".{6,}" title="6 characters minimum">
                 <template slot="password-toggle" slot-scope="props">
                   <button class="VuePassword__Toggle"
                           type="button"
@@ -49,7 +49,7 @@
             </div>
             <div class="field">
               <label class="label">Confirm Password</label>
-              <vue-password v-model="confirmPassword" classes="input" placeholder="Confirm password" required>
+              <vue-password v-model="confirmPassword" classes="input" placeholder="Confirm password" required pattern=".{6,}" title="6 characters minimum">
                 <template slot="password-toggle" slot-scope="props">
                   <button class="VuePassword__Toggle"
                           type="button"

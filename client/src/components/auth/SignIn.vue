@@ -29,7 +29,6 @@
       </div>
       <button class="modal-close is-large" aria-label="close" @click="$router.go(-1)"></button>
     </div>
-  </div>
 </template>
 
 <script>
