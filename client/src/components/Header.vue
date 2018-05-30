@@ -6,15 +6,15 @@
         <router-link to="/products" class="navbar-item is-uppercase">Shop</router-link>
       </div>
 
-      <div class="navbar-end">
-        <div class="navbar-item">
-          <router-link v-if="!auth" to="/signup" class="navbar-item is-uppercase">Sign Up</router-link>
-          <router-link v-if="!auth" to="/signin" class="navbar-item is-uppercase">Sign In</router-link>
-          <p class="buttons">
-            <router-link v-if="auth" to="/panel" class="navbar-item button is-link is-outlined">Admin Panel</router-link>
-            <a v-if="auth" @click="onLogout()" class="navbar-item button is-primary is-outlined">Logout</a>
-          </p>
-        </div>
+      <div class="navbar-end has-text-black-ter">
+        <router-link v-if="!auth" to="/signup" class="navbar-item is-uppercase">Sign Up</router-link>
+        <router-link v-if="!auth" to="/signin" class="navbar-item is-uppercase">Sign In</router-link>
+        <router-link v-if="auth" to="/" class="navbar-item"><i class="fa fa-star"></i></router-link>
+        <router-link to="/" class="navbar-item"><i class="fa fa-shopping-cart"></i></router-link>
+        <p class="buttons">
+          <router-link v-if="admin" to="/panel" class="navbar-item button is-link is-outlined">Admin Panel</router-link>
+          <a v-if="auth" @click="onLogout()" class="navbar-item button is-primary is-outlined">Logout</a>
+        </p>
       </div>
     </div>
   </nav>
@@ -25,6 +25,9 @@ export default {
   computed: {
     auth () {
       return this.$store.getters.isAuthenticated
+    },
+    admin () {
+      return this.$store.getters.isAdmin
     }
   },
   methods: {

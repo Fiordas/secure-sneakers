@@ -30,7 +30,8 @@ router.post('/signup', (req, res) => {
                 message: 'User data saved successfully!',
                 token: token,
                 expiresIn: 3600,
-                userId: userData._id
+                userId: userData._id,
+                admin: userData.admin // might be a security flaw
             });
         }
     });
@@ -50,7 +51,8 @@ router.post('/signin', (req, res) => {
                 message: 'User sign in successful!',
                 token: token,
                 expiresIn: 3600,
-                userId: user._id
+                userId: user._id,
+                admin: user.admin // might be a security flaw
             });
         }
     });

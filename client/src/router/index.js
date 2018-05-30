@@ -33,7 +33,7 @@ export default new Router({
       name: 'Panel',
       component: Panel,
       beforeEnter (to, from, next) {
-        if (store.state.token) {
+        if (store.state.admin) {
           next()
         } else {
           next('/signin')
@@ -45,7 +45,7 @@ export default new Router({
       name: 'AddProduct',
       component: AddProduct,
       beforeEnter (to, from, next) {
-        if (store.state.token) {
+        if (store.state.admin) {
           next()
         } else {
           next('/signin')
@@ -57,7 +57,7 @@ export default new Router({
       name: 'EditProduct',
       component: EditProduct,
       beforeEnter (to, from, next) {
-        if (store.state.token) {
+        if (store.state.admin) {
           next()
         } else {
           next('/signin')
@@ -68,6 +68,16 @@ export default new Router({
       path: '/signup',
       name: 'SignUp',
       component: SignUp
+      /*
+      beforeEnter (to, from, next) {
+        if (store.state.token) {
+          alert('You are already signed in!')
+          next('/')
+        } else {
+          next()
+        }
+      }
+      */
     },
     {
       path: '/signin',

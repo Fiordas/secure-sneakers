@@ -9,12 +9,14 @@ export default new Vuex.Store({
   state: {
     token: null,
     userId: null,
+    admin: null,
     user: null
   },
   mutations: {
     authUser (state, userData) {
       state.token = userData.token
       state.userId = userData.userId
+      state.admin = userData.admin
     },
     storeUser (state, user) {
       state.user = user
@@ -22,6 +24,7 @@ export default new Vuex.Store({
     clearAuthData (state) {
       state.token = null
       state.userId = null
+      state.admin = null
     }
   },
   actions: {
@@ -36,7 +39,8 @@ export default new Vuex.Store({
           console.log(res)
           commit('authUser', {
             token: res.data.token,
-            userId: res.data.userId
+            userId: res.data.userId,
+            admin: res.data.admin
           })
           const now = new Date()
           const expirationDate = new Date(now.getTime() + res.data.expiresIn * 1000)
@@ -55,7 +59,8 @@ export default new Vuex.Store({
             console.log(res)
             commit('authUser', {
               token: res.data.token,
-              userId: res.data.userId
+              userId: res.data.userId,
+              admin: res.data.admin
             })
             const now = new Date()
             const expirationDate = new Date(now.getTime() + res.data.expiresIn * 1000)
@@ -111,6 +116,9 @@ export default new Vuex.Store({
     },
     isAuthenticated (state) {
       return state.token !== null
+    },
+    isAdmin (state) {
+      return state.admin
     }
   }
 })
