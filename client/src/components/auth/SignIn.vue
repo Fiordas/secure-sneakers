@@ -10,7 +10,7 @@
                 class="input"
                 type="email"
                 placeholder="E-mail"
-                v-model="email">
+                v-model="email" required autofocus>
             </div>
             <div class="field">
               <label class="label">Password</label>
@@ -18,7 +18,7 @@
                 class="input"
                 type="password"
                 placeholder="Password"
-                v-model="password">
+                v-model="password" required>
             </div>
             <div class="field submit">
               <button class="button is-primary" type="submit">Submit</button>

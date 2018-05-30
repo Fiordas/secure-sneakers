@@ -90,6 +90,9 @@ export default {
       // check error
       this.errors = []
       if (this.password !== this.confirmPassword) this.errors.push('Password does not match')
+      if (this.password === this.email) this.errors.push('Password should be different with email')
+      if (this.password.includes(this.firstName)) this.errors.push('Password should not contains first name')
+      if (this.password.includes(this.lastName)) this.errors.push('Password should not contains last name')
       if (this.errors.length > 0) {
         this.password = ''
         this.confirmPassword = ''
