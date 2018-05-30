@@ -1,0 +1,2 @@
+{"_id":{"$oid":"5b0d4bbf0175672fac092d1c"},"admin":true,"email":"admin@test.com","firstName":"asdasd","lastName":"dsdsdasd","password":"$2b$10$JEq/H7Sv9Fx5oN78cUFJ/.V6DM.EUoTRzHcYsWMr4.m.HDT2JJIJi","__v":0}
+{"_id":{"$oid":"5b0d55880175672fac092d1d"},"admin":false,"email":"test@test.com","firstName":"sdasdsad","lastName":"dsdsdsad","password":"$2b$10$pfB3TlP8QTp1JUlLGlrSh.4rPd7ybP55IVEhLPrLXo0TdItiJdpVG","__v":0}
