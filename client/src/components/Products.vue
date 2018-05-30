@@ -36,12 +36,12 @@
                     </div>
                   </div>
                   <div class="content">
-                    <p>{{ product.description }}</p>
+                    <p class="limited-text">{{ product.description }}</p>
                   </div>
                   <router-link v-bind:to="{ name: 'Details', params: { id: product._id } }" class="button is-primary is-outlined">Details</router-link>
                   <p class="buttons is-pulled-right">
-                    <router-link v-bind:to="{ name: 'Details', params: { id: product._id } }" class="button is-primary is-outlined"><i class="fa fa-heart"></i></router-link>
-                    <router-link v-bind:to="{ name: 'Details', params: { id: product._id } }" class="button is-primary is-outlined"><i class="fa fa-shopping-cart"></i></router-link>
+                    <router-link v-bind:to="{ name: 'Details', params: { id: product._id } }" class="button is-primary is-outlined"><i class="fa fa-star"></i></router-link>
+                    <router-link v-bind:to="{ name: 'Details', params: { id: product._id } }" class="button is-primary is-outlined"><i class="fa fa-shopping-basket"></i></router-link>
                   </p>
                 </div>
               </div>
@@ -77,3 +77,12 @@ export default {
   }
 }
 </script>
+
+<style>
+  .limited-text{
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+  }
+</style>

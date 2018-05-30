@@ -4,15 +4,18 @@
     <div class="container">
       <router-view/>
     </div>
+    <app-footer></app-footer>
   </div>
 </template>
 
 <script>
 import Header from './components/Header.vue'
+import Footer from './components/Footer'
 export default {
   name: 'App',
   components: {
-    appHeader: Header
+    appHeader: Header,
+    appFooter: Footer
   },
   created () {
     this.$store.dispatch('tryAutoLogin')
