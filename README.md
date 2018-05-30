@@ -15,6 +15,7 @@ For MongoDB:
 4. Import data (ref: https://docs.mongodb.com/manual/reference/program/mongoimport/#use)
       * Open `secure-sneakers/data` directory in command prompt with administrator permissions
       * Run `mongoimport --db secure-sneakers --collection products --file products.json` to import product collection (if command is unrecognized - add `C:\Program Files\MongoDB\Server\3.6\bin` to environment variables)
+      * Run `mongoimport --db secure-sneakers --collection users --file users.json` to import users collection
 
 For server (back-end):
 1. Install dependencies:
