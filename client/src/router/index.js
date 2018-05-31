@@ -9,6 +9,7 @@ import AddProduct from '@/components/AddProduct'
 import EditProduct from '@/components/EditProduct'
 import SignUp from '@/components/auth/SignUp'
 import SignIn from '@/components/auth/SignIn'
+import ShoppingCard from '@/components/ShoppingCard'
 
 Vue.use(Router)
 
@@ -64,6 +65,12 @@ export default new Router({
         }
       }
     },
+    {
+      path: '/shoppingcard',
+      name: 'ShoppingCard',
+      component: ShoppingCard
+    },
+
     {
       path: '/signup',
       name: 'SignUp',
