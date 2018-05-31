@@ -4,6 +4,12 @@
       <div class="modal-content">
         <div class="box is-radiusless">
           <form @submit.prevent="onSubmit">
+            <p v-if="errors.length">
+              <b>Please correct the following error(s):</b>
+            <ul>
+              <li v-for="error in errors" :key="error.id">{{ error }}</li>
+            </ul>
+            </p>
             <div class="field">
               <label class="label">E-mail</label>
               <input
@@ -24,7 +30,6 @@
               <button class="button is-primary" type="submit">Submit</button>
             </div>
           </form>
-          <p>{{ error }}</p>
         </div>
       </div>
       <button class="modal-close is-large" aria-label="close" @click="$router.go(-1)"></button>
@@ -38,7 +43,7 @@ export default {
     return {
       email: '',
       password: '',
-      error: ''
+      errors: []
     }
   },
   methods: {
@@ -49,6 +54,10 @@ export default {
       }
       console.log(formData)
       this.$store.dispatch('signIn', formData)
+
+      // if failed
+      this.errors = []
+      this.errors.push('Wrong email/password')
     }
   }
 }
