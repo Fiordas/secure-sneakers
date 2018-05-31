@@ -47,12 +47,6 @@
           <input class="input" type="number" v-model="price">
         </div>
       </div>
-      <div class="field">
-        <label class="label">Image</label>
-        <div class="control">
-          <vue-dropzone ref="myVueDropzone" id="dropzone" :options="dropzoneOptions"></vue-dropzone>
-        </div>
-      </div>
       <div>
         <button class="button is-primary" @click="addProduct">Add</button>
       </div>
@@ -61,14 +55,9 @@
 </template>
 
 <script>
-import vue2Dropzone from 'vue2-dropzone'
-import 'vue2-dropzone/dist/vue2Dropzone.min.css'
 import ProductsService from '@/services/ProductsService'
 export default {
   name: 'AddProduct',
-  components: {
-    vueDropzone: vue2Dropzone
-  },
   data () {
     return {
       name: '',
@@ -88,14 +77,7 @@ export default {
         { size: 46, quantity: 0 },
         { size: 47, quantity: 0 }
       ],
-      price: 0,
-
-      dropzoneOptions: {
-        url: 'https://httpbin.org/post',
-        thumbnailWidth: 150,
-        maxFilesize: 0.5,
-        headers: { 'My-Awesome-Header': 'header value' }
-      }
+      price: 0
     }
   },
   methods: {
