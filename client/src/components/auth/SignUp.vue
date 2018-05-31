@@ -16,7 +16,7 @@
                 class="input"
                 type="email"
                 placeholder="E-mail"
-                v-model="email" required autofocus>
+                v-model="email" required>
             </div>
             <div class="field">
               <label class="label">First Name</label>
