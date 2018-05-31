@@ -13,7 +13,17 @@
 </template>
 
 <style>
-  footer {
-    margin-top: 30px;
+  .footer {
+    padding: 20px;
+    font-size: 12px;
+    text-align: right;
+    background: #000;
+    margin-top: 20px;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    color: #FFFFFF;
   }
+
 </style>
