@@ -94,8 +94,6 @@ export default {
       if (this.password.includes(this.firstName)) this.errors.push('Password should not contains first name')
       if (this.password.includes(this.lastName)) this.errors.push('Password should not contains last name')
       if (this.errors.length > 0) {
-        this.password = ''
-        this.confirmPassword = ''
         return false
       }
 
@@ -108,6 +106,9 @@ export default {
       }
       console.log(formData)
       this.$store.dispatch('signUp', formData)
+
+      // if failed
+      this.errors.push('The email address you have entered is already registered')
     }
   }
 }
