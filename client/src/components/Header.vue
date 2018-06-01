@@ -10,7 +10,7 @@
         <router-link v-if="!auth" to="/signup" class="navbar-item is-uppercase">Sign Up</router-link>
         <router-link v-if="!auth" to="/signin" class="navbar-item is-uppercase">Sign In</router-link>
         <router-link v-if="auth" to="/" class="navbar-item"><i class="fa fa-star"></i></router-link>
-        <router-link to="/shoppingcard" class="navbar-item"><i class="fa fa-shopping-cart"></i></router-link>
+        <router-link to="/checkout" class="navbar-item"><i class="fa fa-shopping-cart"></i></router-link>
         <p class="buttons">
           <router-link v-if="admin" to="/panel" class="navbar-item button is-link is-outlined">Admin Panel</router-link>
           <a v-if="auth" @click="onLogout()" class="navbar-item button is-primary is-outlined">Logout</a>
