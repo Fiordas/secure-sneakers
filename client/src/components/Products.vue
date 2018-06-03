@@ -4,7 +4,6 @@
     <div class="columns">
       <div class="column is-one-fifth">
         <h2 class="title">Search</h2>
-        <input type="range" min="1" max="100" class="slider">
         <div class="field">
           <div class="control">
             <label class="checkbox">
@@ -16,12 +15,24 @@
               Brand <input type="checkbox">
             </label>
           </div>
+          <div class="field">
+            <div class="field-label">
+              <label class="label">Price</label>
+            </div>
+            <div class="field-body">
+              <div class="field">
+                <p class="control">
+                  <vue-slider v-bind="priceRange" v-bind:min="minPrice" v-bind:max="maxPrice" v-model="priceRange.value"></vue-slider>
+                </p>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
       <div class="column">
         <div class="media" v-if="products.length > 0">
           <div class="columns is-multiline">
-            <div class="column is-one-third" v-for="product in products" :key="product._id">
+            <div class="column is-one-third" v-for="product in filteredProducts" :key="product._id">
               <div class="card">
                 <div class="card-image">
                   <figure class="image">
@@ -59,15 +70,61 @@
 
 <script>
 import ProductsService from '@/services/ProductsService'
+import vueSlider from 'vue-slider-component'
+
 export default {
   name: 'products',
   data () {
     return {
-      products: []
+      products: [],
+      priceRange: {
+        value: [0, 100],
+        width: '100%',
+        height: 3,
+        dotSize: 10,
+        disabled: false,
+        show: true,
+        useKeyboard: true,
+        tooltip: 'always',
+        tooltipDir: ['bottom', 'bottom'],
+        formatter: '{value}',
+        overlapFormatter: '{value1} ~ {value2}',
+        bgStyle: {
+          backgroundColor: '#fff',
+          boxShadow: 'inset 0.5px 0.5px 3px 1px rgba(0,0,0,.20)'
+        },
+        tooltipStyle: {
+          backgroundColor: 'hsl(171, 100%, 41%)',
+          borderColor: 'hsl(171, 100%, 41%)'
+        },
+        processStyle: {
+          backgroundColor: 'hsl(171, 100%, 41%)'
+        }
+      }
     }
+  },
+  components: {
+    vueSlider
   },
   mounted () {
     this.getProducts()
+  },
+  computed: {
+    filteredProducts: function () {
+      return this.products.filter(product => {
+        return product.price >= this.priceRange.value[0] && product.price <= this.priceRange.value[1]
+      })
+    },
+    minPrice: function () {
+      var prices = this.products.map(a => a.price)
+      console.log(prices)
+      return Math.min.apply(null, prices)
+    },
+    maxPrice: function () {
+      var prices = this.products.map(a => a.price)
+      console.log(prices)
+      return Math.max.apply(null, prices)
+    }
   },
   methods: {
     async getProducts () {
