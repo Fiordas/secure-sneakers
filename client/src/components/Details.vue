@@ -6,7 +6,7 @@
         <div class="columns">
           <div class="column is-two-thirds">
             <figure class="image">
-              <img src="../assets/adidas-nmd-runner-triple-white.jpg">
+              <img v-bind:src="'http://localhost:3000/uploads/' + filename" />
             </figure>
           </div>
           <div class="column">
@@ -52,7 +52,8 @@ export default {
       brand: '',
       description: '',
       stock: [ ],
-      price: 0
+      price: 0,
+      filename: ''
     }
   },
   mounted () {
@@ -68,6 +69,7 @@ export default {
       this.description = response.data.description
       this.stock = response.data.stock
       this.price = response.data.price
+      this.filename = response.data.filename
     }
   }
 }

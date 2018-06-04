@@ -9,7 +9,7 @@
       <div class="navbar-end has-text-black-ter">
         <router-link v-if="!auth" to="/signup" class="navbar-item is-uppercase">Sign Up</router-link>
         <router-link v-if="!auth" to="/signin" class="navbar-item is-uppercase">Sign In</router-link>
-        <router-link v-if="auth" to="/" class="navbar-item"><i class="fas fa-star"></i></router-link>
+        <!--<router-link v-if="auth" to="/" class="navbar-item"><i class="fas fa-star"></i></router-link>-->
 
         <div @click.stop :class="{ 'is-active': dropdownActive === true }" class="dropdown is-right">
           <a @click="setActive" class="navbar-item has-text-black-ter" aria-haspopup="true" aria-controls="dropdown-menu2">

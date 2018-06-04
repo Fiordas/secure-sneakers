@@ -8,6 +8,7 @@ import '../node_modules/bulma/css/bulma.css'
 import '@fortawesome/fontawesome'
 import '@fortawesome/fontawesome-free-brands'
 import '@fortawesome/fontawesome-free-solid'
+import '../node_modules/cool-checkboxes-for-bulma.io/dist/css/bulma-radio-checkbox.css'
 
 Vue.config.productionTip = false
 

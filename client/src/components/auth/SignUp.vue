@@ -104,11 +104,7 @@ export default {
         lastName: this.lastName,
         password: this.password
       }
-      console.log(formData)
       this.$store.dispatch('signUp', formData)
-
-      // if failed
-      this.errors.push('The email address you have entered is already registered')
     }
   }
 }

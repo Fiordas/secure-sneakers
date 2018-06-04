@@ -18,5 +18,9 @@ export default {
   },
   deleteProduct (id) {
     return Api().delete('products/' + id)
+  },
+
+  upload (params) {
+    return Api().post('products/upload', params)
   }
 }

@@ -22,7 +22,7 @@
           <article class="media" v-for="(item, index) in cart" v-bind:key="index">
             <figure class="media-left">
               <p class="image is-64x64">
-                <img src="../assets/adidas-nmd-runner-triple-white.jpg">
+                <img v-bind:src="'http://localhost:3000/uploads/' + item.filename">
               </p>
             </figure>
             <div class="media-content">

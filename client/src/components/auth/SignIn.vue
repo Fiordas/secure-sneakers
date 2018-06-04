@@ -52,12 +52,7 @@ export default {
         email: this.email,
         password: this.password
       }
-      console.log(formData)
       this.$store.dispatch('signIn', formData)
-
-      // if failed
-      this.errors = []
-      this.errors.push('Wrong email/password')
     }
   }
 }
