@@ -3,6 +3,7 @@
     <h1 class="title">Products</h1>
     <div class="columns">
       <div class="column is-one-fifth">
+        <label class="label">Brand</label>
         <div class="field" v-for="(brand, i) in brands" v-bind:key="brand.name">
           <div class="control b-checkbox is-primary is-inline">
             <input v-bind:id="brand.name" type="checkbox" class="styled" v-model="brands[i].filter">
@@ -10,14 +11,23 @@
           </div>
         </div>
         <div class="field">
-          <div class="field-label">
-            <label class="label">Price</label>
-          </div>
+          <label class="label">Price</label>
           <div class="field-body">
             <div class="field">
               <p class="control">
                 <vue-slider v-bind="priceRange" v-model="priceRange.value"></vue-slider>
               </p>
+            </div>
+          </div>
+        </div>
+        <br/> <br/>
+        <div class="field">
+          <label class="label">Size</label>
+          <div class="columns is-multiline">
+            <div class="colum" v-for ="(size, i) in sizes" v-bind:key="size.number">
+              <div class="card">
+                <a href="#" class="cell" :class="{'active': size.filter}" @click.prevent = "setActive(i)">{{size.number}}</a>
+              </div>
             </div>
           </div>
         </div>
@@ -70,9 +80,25 @@ export default {
   data () {
     return {
       products: [],
-      brands: [{'name': 'Nike', filter: false},
-               {'name': 'Adidas', filter: false},
-               {'name': 'Reebok', filter: false}],
+      brands: [
+        {'name': 'Nike', filter: false},
+        {'name': 'Adidas', filter: false},
+        {'name': 'Reebok', filter: false}
+      ],
+      sizes: [
+        {'number': 36, filter: false},
+        {'number': 37, filter: false},
+        {'number': 38, filter: false},
+        {'number': 39, filter: false},
+        {'number': 40, filter: false},
+        {'number': 41, filter: false},
+        {'number': 42, filter: false},
+        {'number': 43, filter: false},
+        {'number': 44, filter: false},
+        {'number': 45, filter: false},
+        {'number': 46, filter: false},
+        {'number': 47, filter: false}
+      ],
       priceRange: {
         value: [0, 1000],
         max: 1000,
@@ -85,8 +111,8 @@ export default {
         useKeyboard: true,
         tooltip: 'always',
         tooltipDir: ['bottom', 'bottom'],
-        formatter: '{value}',
-        overlapFormatter: '{value1} ~ {value2}',
+        formatter: '€{value}',
+        overlapFormatter: '€{value1} ~ €{value2}',
         bgStyle: {
           backgroundColor: '#fff',
           boxShadow: 'inset 0.5px 0.5px 3px 1px rgba(0,0,0,.20)'
@@ -115,11 +141,23 @@ export default {
           filteredBrands.push(this.brands[i].name)
         }
       }
+      var filteredSizes = []
+      for (i = 0; i < this.sizes.length; i++) {
+        if (this.sizes[i].filter) {
+          filteredSizes.push(this.sizes[i].number)
+        }
+      }
       return this.products.filter(product => {
-        console.log(product.brand)
-        console.log(filteredBrands)
         return product.price >= this.priceRange.value[0] && product.price <= this.priceRange.value[1] &&
-        (this.brands.every(a => {return !a.filter}) || filteredBrands.includes(product.brand))
+        (this.brands.every(a => { return !a.filter }) || filteredBrands.includes(product.brand)) &&
+        (this.sizes.every(a => { return !a.filter }) || filteredSizes.some(function (value) {
+          for (i = 0; i < product.stock.length; i++) {
+            if (product.stock[i].size === value && product.stock[i].quantity > 0) {
+              return true
+            }
+          }
+          return false
+        }))
       })
     }
   },
@@ -127,6 +165,9 @@ export default {
     async getProducts () {
       const response = await ProductsService.fetchProducts()
       this.products = response.data.products
+    },
+    setActive: function (i) {
+      this.sizes[i].filter = !this.sizes[i].filter
     }
   }
 }
@@ -138,5 +179,16 @@ export default {
     display: -webkit-box;
     -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
+  }
+
+  .active {
+    background-color: #00d1b2;
+    color: white;
+  }
+
+  .cell {
+    display: block;
+    padding: 10px;
+    color: black;
   }
 </style>
