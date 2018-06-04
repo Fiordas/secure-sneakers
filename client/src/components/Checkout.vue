@@ -1,293 +1,263 @@
 <template>
-  <div class="shopping-cart">
-    <!-- Title -->
-    <div class="title">Shopping Bag</div>
-
-    <!-- Product #1 -->
-    <div class="item">
-      <div class="buttons">
-        <span class="delete-btn"></span>
-        <span class="like-btn"></span>
+  <div v-if="checkoutDone === false">
+    <h1 class="title">Checkout</h1>
+    <div class="columns">
+      <div class="column is-two-thirds">
+        <h4 class="subtitle is-4">Items in the cart</h4>
+        <div v-if="cart && cart.length > 0">
+          <article class="media">
+            <figure class="media-left"></figure>
+            <div class="media-content">
+              <div class="content">
+                <div class="columns">
+                  <div class="column is-one-fourth"></div>
+                  <div class="column is-one-fourth"><strong>Size</strong></div>
+                  <div class="column is-one-fourth"><strong>Quantity</strong></div>
+                  <div class="column is-one-fourth"><strong>Price</strong></div>
+                </div>
+              </div>
+            </div>
+            <div class="media-right"></div>
+          </article>
+          <article class="media" v-for="(item, index) in cart" v-bind:key="index">
+            <figure class="media-left">
+              <p class="image is-64x64">
+                <img src="../assets/adidas-nmd-runner-triple-white.jpg">
+              </p>
+            </figure>
+            <div class="media-content">
+              <div class="content">
+                <div class="columns">
+                  <div class="column is-one-fourth"><strong>{{item.name}}</strong><br>Brand</div>
+                  <div class="column is-one-fourth">{{item.amount.size}}</div>
+                  <div class="column is-one-fourth">{{item.amount.quantity}}</div>
+                  <div class="column is-one-fourth">€{{item.price}}.00</div>
+                </div>
+              </div>
+            </div>
+            <div class="media-right">
+              <button @click="cartItemRemove(index)" class="delete"></button>
+            </div>
+          </article>
+          <hr>
+          <article class="media">
+            <figure class="media-left"></figure>
+            <div class="media-content">
+              <div class="content">
+                <div class="columns">
+                  <div class="column is-one-fourth"></div>
+                  <div class="column is-one-fourth"></div>
+                  <div class="column is-one-fourth"></div>
+                  <div class="column is-one-fourth"><h1 class="title is-5">Total to Pay €{{calculateTotal}}.00</h1></div>
+                </div>
+              </div>
+            </div>
+            <div class="media-right"></div>
+          </article>
+        </div>
+        <div v-else>
+          <p>Empty. Try adding some products!</p>
+        </div>
       </div>
 
-      <div class="image">
-        <img src="../assets/item-1.png" alt="" />
-      </div>
+      <div class="column is-one-third">
+        <form @submit.prevent="saveOrder">
+          <h4 class="subtitle is-4">Delivery information</h4>
+          <div class="field is-horizontal">
+            <div class="field-body">
+              <div class="field">
+                <label class="label">First name</label>
+                <div class="control has-icons-left">
+                  <input v-model="firstName" type="text" class="input" required>
+                  <span class="icon is-small is-left">
+                    <i class="fas fa-address-card"></i>
+                  </span>
+                </div>
+              </div>
+              <div class="field">
+                <label class="label">Last name</label>
+                <div class="control has-icons-left">
+                  <input v-model="lastName" type="text" class="input" required>
+                  <span class="icon is-small is-left">
+                    <i class="fas fa-address-card"></i>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
 
-      <div class="description">
-        <span>Common Projects</span>
-        <span>Bball High</span>
-        <span>White</span>
-      </div>
+          <div class="field">
+            <label class="label">Adress</label>
+            <div class="control has-icons-left">
+              <input v-model="adress" type="text" class="input" required>
+              <span class="icon is-small is-left">
+                <i class="fas fa-home"></i>
+              </span>
+            </div>
+          </div>
 
-      <div class="quantity">
-        <button class="plus-btn" type="button" name="button">
-          <img src="../assets/plus.svg" alt="" />
-        </button>
-        <input type="text" name="name" value="1">
-        <button class="minus-btn" type="button" name="button">
-          <img src="../assets/minus.svg" alt="" />
-        </button>
-      </div>
+          <br>
 
-      <div class="total-price">$549</div>
+          <h4 class="subtitle is-4">Payment information</h4>
+          <div class="field">
+            <label class="label">Card number</label>
+            <div class="control has-icons-left">
+              <input type="text" class="input" maxlength="19" required>
+              <span class="icon is-small is-left">
+                <i class="fas fa-credit-card"></i>
+              </span>
+            </div>
+          </div>
+
+          <div class="field">
+            <label class="label">Owner name</label>
+            <div class="control has-icons-left">
+              <input type="text" class="input" required>
+              <span class="icon is-small is-left">
+                <i class="fas fa-user"></i>
+              </span>
+            </div>
+          </div>
+
+          <div class="field is-horizontal">
+            <div class="field-body">
+              <div class="field">
+                <label class="label">CVV</label>
+                <div class="control has-icons-left">
+                  <input type="text" class="input" maxlength="4" required>
+                  <span class="icon is-small is-left">
+                    <i class="fas fa-lock"></i>
+                  </span>
+                </div>
+              </div>
+              <div class="field">
+                <label class="label">Expiration date</label>
+                <div class="control has-icons-left">
+                  <input type="month" class="input" required>
+                  <span class="icon is-small is-left">
+                    <i class="fas fa-calendar"></i>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="field submit">
+            <div class="control is-pulled-right">
+              <br>
+              <button class="button is-primary">Checkout</button>
+            </div>
+            <p class="help is-danger">{{checkoutError}}</p>
+          </div>
+        </form>
+      </div>
     </div>
-
-    <!-- Product #2 -->
-    <div class="item">
-      <div class="buttons">
-        <span class="delete-btn"></span>
-        <span class="like-btn"></span>
-      </div>
-
-      <div class="image">
-        <img src="../assets/item-2.png" alt=""/>
-      </div>
-
-      <div class="description">
-        <span>Maison Margiela</span>
-        <span>Future Sneakers</span>
-        <span>White</span>
-      </div>
-
-      <div class="quantity">
-        <button class="plus-btn" type="button" name="button">
-          <img src="../assets/plus.svg" alt="" />
-        </button>
-        <input type="text" name="name" value="1">
-        <button class="minus-btn" type="button" name="button">
-          <img src="../assets/minus.svg" alt="" />
-        </button>
-      </div>
-
-      <div class="total-price">$870</div>
-    </div>
-
-    <!-- Product #3 -->
-    <div class="item">
-      <div class="buttons">
-        <span class="delete-btn"></span>
-        <span class="like-btn"></span>
-      </div>
-
-      <div class="image">
-        <img src="../assets/item-2.png" alt="" />
-      </div>
-
-      <div class="description">
-        <span>Our Legacy</span>
-        <span>Pro Adidas</span>
-        <span>White</span>
-      </div>
-
-      <div class="quantity">
-        <button class="plus-btn" type="button" name="button">
-          <img src="../assets/plus.svg" alt="" />
-        </button>
-        <input type="text" name="name" value="1">
-        <button class="minus-btn" type="button" name="button">
-          <img src="../assets/minus.svg" alt="" />
-        </button>
-      </div>
-
-      <div class="total-price">$349</div>
-    </div>
-
   </div>
+  <section style="margin-top: 200px" v-else class="hero is-success">
+    <div class="hero-body">
+      <div class="container">
+        <h1 class="title">
+          Success
+        </h1>
+        <h2 class="subtitle">
+          Order received and being processed
+        </h2>
+      </div>
+    </div>
+  </section>
 </template>
 
 <script>
+import OrdersService from '@/services/OrdersService'
+import ProductsService from '@/services/ProductsService'
+
 export default {
-  name: 'Checkout'
+  name: 'Checkout',
+  data () {
+    return {
+      cart: [],
+      totalPrice: 0,
+      firstName: '',
+      lastName: '',
+      adress: '',
+      checkoutDone: true,
+      checkoutError: ''
+    }
+  },
+  created () {
+    this.cart = this.$store.getters.getCart
+    this.checkoutDone = false
+  },
+  methods: {
+    cartItemRemove (index) {
+      this.cart.splice(index, 1)
+      localStorage.setItem('cart', JSON.stringify(this.cart))
+      this.$store.dispatch('storeCart')
+    },
+    async saveOrder () {
+      const response = await ProductsService.fetchProducts()
+      let outOfStockFound = false
+
+      this.cart.forEach(function (item) {
+        const itemToCheck = response.data.products.find(products => products._id === item.productId)
+        const result = itemToCheck.stock.find(stock => stock._id === item.amount.stockId)
+        if (result.quantity < item.amount.quantity) {
+          outOfStockFound = true
+        }
+      })
+      if (outOfStockFound) {
+        this.checkoutError = 'Selected products are out of stock.'
+        return
+      }
+
+      this.cart.forEach(async function (item) {
+        const itemToCheck = response.data.products.find(products => products._id === item.productId)
+        const result = itemToCheck.stock.findIndex(stock => stock._id === item.amount.stockId)
+        let updatedItem = itemToCheck
+        updatedItem.stock[result].quantity--
+
+        await ProductsService.updateProduct({
+          id: item.productId,
+          name: itemToCheck.name,
+          brand: itemToCheck.brand,
+          description: itemToCheck.description,
+          stock: updatedItem.stock,
+          price: itemToCheck.price
+        })
+      })
+
+      const userId = localStorage.getItem('userId')
+      if (!userId) {
+        await OrdersService.addOrder({
+          customerName: this.firstName + ' ' + this.lastName,
+          customerAdress: this.adress,
+          items: this.cart,
+          totalPrice: this.totalPrice
+        })
+        this.checkoutDone = true
+      } else {
+        await OrdersService.addOrder({
+          customerId: userId,
+          customerName: this.firstName + ' ' + this.lastName,
+          customerAdress: this.adress,
+          items: this.cart,
+          totalPrice: this.totalPrice
+        })
+        this.checkoutDone = true
+      }
+
+      localStorage.removeItem('cart')
+      this.$store.dispatch('storeCart')
+    }
+  },
+  computed: {
+    calculateTotal: function () {
+      for (const item of this.cart) {
+        // eslint-disable-next-line
+        this.totalPrice += item.amount.quantity * item.price
+      }
+      return this.totalPrice
+    }
+  }
 }
 </script>
-
-<style scoped>
-
-  * {
-    box-sizing: border-box;
-  }
-
-  body {
-    width: 100%;
-    height: 100%;
-    padding: 10px;
-    margin: 0;
-    background-color: #FFFFFF;
-    font-family: 'Roboto', sans-serif;
-  }
-
-  .shopping-cart {
-    width: 750px;
-    height: 423px;
-    margin: 80px auto;
-    background: #FFFFFF;
-    box-shadow: 1px 2px 3px 1px rgba(0,0,0,0.10);
-    border-radius: 6px;
-
-    display: flex;
-    flex-direction: column;
-  }
-
-  .title {
-    height: 60px;
-    border-bottom: 1px solid #E1E8EE;
-    padding: 20px 30px;
-    color: #5E6977;
-    font-size: 18px;
-    font-weight: 400;
-  }
-
-  .item {
-    padding: 20px 30px;
-    height: 120px;
-    display: flex;
-  }
-
-  .item:nth-child(3) {
-    border-top:  1px solid #E1E8EE;
-    border-bottom:  1px solid #E1E8EE;
-  }
-
-  /* Buttons -  Delete and Like */
-  .buttons {
-    position: relative;
-    padding-top: 30px;
-    margin-right: 60px;
-  }
-
-  .delete-btn {
-    display: inline-block;
-    cursor: pointer;
-    width: 18px;
-    height: 17px;
-    background: url("../assets/delete-icn.svg") no-repeat center;
-    margin-right: 20px;
-  }
-
-  .like-btn {
-    position: absolute;
-    top: 9px;
-    left: 15px;
-    display: inline-block;
-    background: url('../assets/twitter-heart.png');
-    width: 60px;
-    height: 60px;
-    background-size: 2900%;
-    background-repeat: no-repeat;
-    cursor: pointer;
-  }
-
-  .is-active {
-    animation-name: animate;
-    animation-duration: .8s;
-    animation-iteration-count: 1;
-    animation-timing-function: steps(28);
-    animation-fill-mode: forwards;
-  }
-
-  @keyframes animate {
-    0%   { background-position: left;  }
-    50%  { background-position: right; }
-    100% { background-position: right; }
-  }
-
-  /* Product Image */
-  .image {
-    margin-right: 50px;
-  }
-
-  /* Product Description */
-  .description {
-    padding-top: 10px;
-    margin-right: 60px;
-    width: 115px;
-  }
-
-  .description span {
-    display: block;
-    font-size: 14px;
-    color: #43484D;
-    font-weight: 400;
-  }
-
-  .description span:first-child {
-    margin-bottom: 5px;
-  }
-  .description span:last-child {
-    font-weight: 300;
-    margin-top: 8px;
-    color: #86939E;
-  }
-
-  /* Product Quantity */
-  .quantity {
-    padding-top: 20px;
-    margin-right: 60px;
-  }
-  .quantity input {
-    -webkit-appearance: none;
-    border: none;
-    text-align: center;
-    width: 32px;
-    font-size: 16px;
-    color: #43484D;
-    font-weight: 300;
-  }
-
-  button[class*=btn] {
-    width: 30px;
-    height: 30px;
-    background-color: #E1E8EE;
-    border-radius: 6px;
-    border: none;
-    cursor: pointer;
-  }
-  .minus-btn img {
-    margin-bottom: 3px;
-  }
-  .plus-btn img {
-    margin-top: 2px;
-  }
-  button:focus,
-  input:focus {
-    outline:0;
-  }
-  /* Total Price */
-  .total-price {
-    width: 83px;
-    padding-top: 27px;
-    text-align: center;
-    font-size: 16px;
-    color: #43484D;
-    font-weight: 300;
-  }
-
-  /* Responsive */
-  @media (max-width: 800px) {
-    .shopping-cart {
-      width: 100%;
-      height: auto;
-      overflow: hidden;
-    }
-    .item {
-      height: auto;
-      flex-wrap: wrap;
-      justify-content: center;
-    }
-    .image img {
-      width: 50%;
-    }
-    .image,
-    .quantity,
-    .description {
-      width: 100%;
-      text-align: center;
-      margin: 6px 0;
-    }
-    .buttons {
-      margin-right: 20px;
-    }
-  }
-
-</style>

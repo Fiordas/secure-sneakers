@@ -11,6 +11,7 @@
 <script>
 import Header from './components/Header.vue'
 import Footer from './components/Footer'
+
 export default {
   name: 'App',
   components: {
@@ -19,6 +20,7 @@ export default {
   },
   created () {
     this.$store.dispatch('tryAutoLogin')
+    this.$store.dispatch('storeCart')
   }
 }
 </script>

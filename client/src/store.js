@@ -10,7 +10,8 @@ export default new Vuex.Store({
     token: null,
     userId: null,
     admin: null,
-    user: null
+    user: null,
+    cart: null
   },
   mutations: {
     authUser (state, userData) {
@@ -20,6 +21,12 @@ export default new Vuex.Store({
     },
     storeUser (state, user) {
       state.user = user
+    },
+    storeCart (state, cart) {
+      state.cart = cart
+    },
+    clearCart (state) {
+      state.cart = null
     },
     clearAuthData (state) {
       state.token = null
@@ -108,6 +115,14 @@ export default new Vuex.Store({
           commit('storeUser', res.data.decoded)
         })
         .catch(error => console.log(error))
+    },
+    storeCart ({commit}) {
+      const cart = JSON.parse(localStorage.getItem('cart'))
+      if (!cart) {
+        commit('clearCart')
+        return
+      }
+      commit('storeCart', cart)
     }
   },
   getters: {
@@ -119,6 +134,9 @@ export default new Vuex.Store({
     },
     isAdmin (state) {
       return state.admin
+    },
+    getCart (state) {
+      return state.cart
     }
   }
 })
