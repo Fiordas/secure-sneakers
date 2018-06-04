@@ -3,28 +3,21 @@
     <h1 class="title">Products</h1>
     <div class="columns">
       <div class="column is-one-fifth">
-        <h2 class="title">Search</h2>
+        <div class="field" v-for="(brand, i) in brands" v-bind:key="brand.name">
+          <div class="control b-checkbox is-primary is-inline">
+            <input v-bind:id="brand.name" type="checkbox" class="styled" v-model="brands[i].filter">
+            <label v-bind:for="brand.name"> {{brand.name}}</label>
+          </div>
+        </div>
         <div class="field">
-          <div class="control">
-            <label class="checkbox">
-              Brand <input type="checkbox">
-            </label>
+          <div class="field-label">
+            <label class="label">Price</label>
           </div>
-          <div class="control">
-            <label class="checkbox">
-              Brand <input type="checkbox">
-            </label>
-          </div>
-          <div class="field">
-            <div class="field-label">
-              <label class="label">Price</label>
-            </div>
-            <div class="field-body">
-              <div class="field">
-                <p class="control">
-                  <vue-slider v-bind="priceRange" v-bind:min="minPrice" v-bind:max="maxPrice" v-model="priceRange.value"></vue-slider>
-                </p>
-              </div>
+          <div class="field-body">
+            <div class="field">
+              <p class="control">
+                <vue-slider v-bind="priceRange" v-model="priceRange.value"></vue-slider>
+              </p>
             </div>
           </div>
         </div>
@@ -77,8 +70,13 @@ export default {
   data () {
     return {
       products: [],
+      brands: [{'name': 'Nike', filter: false},
+               {'name': 'Adidas', filter: false},
+               {'name': 'Reebok', filter: false}],
       priceRange: {
-        value: [0, 100],
+        value: [0, 1000],
+        max: 1000,
+        min: 0,
         width: '100%',
         height: 3,
         dotSize: 10,
@@ -111,19 +109,18 @@ export default {
   },
   computed: {
     filteredProducts: function () {
+      var filteredBrands = []
+      for (var i = 0; i < this.brands.length; i++) {
+        if (this.brands[i].filter) {
+          filteredBrands.push(this.brands[i].name)
+        }
+      }
       return this.products.filter(product => {
-        return product.price >= this.priceRange.value[0] && product.price <= this.priceRange.value[1]
+        console.log(product.brand)
+        console.log(filteredBrands)
+        return product.price >= this.priceRange.value[0] && product.price <= this.priceRange.value[1] &&
+        (this.brands.every(a => {return !a.filter}) || filteredBrands.includes(product.brand))
       })
-    },
-    minPrice: function () {
-      var prices = this.products.map(a => a.price)
-      console.log(prices)
-      return Math.min.apply(null, prices)
-    },
-    maxPrice: function () {
-      var prices = this.products.map(a => a.price)
-      console.log(prices)
-      return Math.max.apply(null, prices)
     }
   },
   methods: {

@@ -6,6 +6,7 @@ import router from './router'
 import store from './store'
 import '../node_modules/bulma/css/bulma.css'
 import '../node_modules/font-awesome/css/font-awesome.css'
+import '../node_modules/cool-checkboxes-for-bulma.io/dist/css/bulma-radio-checkbox.css'
 
 Vue.config.productionTip = false
 
