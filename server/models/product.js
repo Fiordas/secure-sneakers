@@ -7,7 +7,8 @@ var ProductSchema = new Schema({
     brand: String,
     description: String,
     stock: [{ size: Number, quantity: Number }],
-    price: Number
+    price: Number,
+    filename: String
 });
 
 var Product = mongoose.model("Product", ProductSchema);

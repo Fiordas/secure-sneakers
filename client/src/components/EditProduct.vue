@@ -47,6 +47,12 @@
           <input class="input" type="number" v-model="price">
         </div>
       </div>
+      <div class="field">
+        <label class="label">Image</label>
+        <div class="control">
+          <input type="file" id="file" ref="file" v-on:change="handleFileUpload()"/>
+        </div>
+      </div>
       <div>
         <button class="button is-primary" @click="updateProduct">Update</button>
       </div>
@@ -64,13 +70,17 @@ export default {
       brand: '',
       description: '',
       stock: [ ],
-      price: 0
+      price: 0,
+      file: ''
     }
   },
   mounted () {
     this.getProduct()
   },
   methods: {
+    handleFileUpload () {
+      this.file = this.$refs.file.files[0]
+    },
     async getProduct () {
       const response = await ProductsService.getProduct({
         id: this.$route.params.id
@@ -88,8 +98,14 @@ export default {
         brand: this.brand,
         description: this.description,
         stock: this.stock,
-        price: this.price
+        price: this.price,
+        filename: this.file.name
       })
+
+      let formData = new FormData()
+      formData.append('image', this.file)
+      await ProductsService.upload(formData)
+
       this.$router.push({ name: 'Panel' })
     }
   }
