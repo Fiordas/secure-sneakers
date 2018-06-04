@@ -3,25 +3,29 @@
     <h1 class="title">Products</h1>
     <div class="columns">
       <div class="column is-one-fifth">
-        <h2 class="title">Search</h2>
-        <input type="range" min="1" max="100" class="slider">
-        <div class="field">
-          <div class="control">
-            <label class="checkbox">
-              Brand <input type="checkbox">
-            </label>
+        <div class="field" v-for="(brand, i) in brands" v-bind:key="brand.name">
+          <div class="control b-checkbox is-primary is-inline">
+            <input v-bind:id="brand.name" type="checkbox" class="styled" v-model="brands[i].filter">
+            <label v-bind:for="brand.name"> {{brand.name}}</label>
           </div>
-          <div class="control">
-            <label class="checkbox">
-              Brand <input type="checkbox">
-            </label>
+        </div>
+        <div class="field">
+          <div class="field-label">
+            <label class="label">Price</label>
+          </div>
+          <div class="field-body">
+            <div class="field">
+              <p class="control">
+                <vue-slider v-bind="priceRange" v-model="priceRange.value"></vue-slider>
+              </p>
+            </div>
           </div>
         </div>
       </div>
       <div class="column">
         <div class="media" v-if="products.length > 0">
           <div class="columns is-multiline">
-            <div class="column is-one-third" v-for="product in products" :key="product._id">
+            <div class="column is-one-third" v-for="product in filteredProducts" :key="product._id">
               <div class="card">
                 <div class="card-image">
                   <figure class="image">
@@ -59,15 +63,65 @@
 
 <script>
 import ProductsService from '@/services/ProductsService'
+import vueSlider from 'vue-slider-component'
+
 export default {
   name: 'products',
   data () {
     return {
-      products: []
+      products: [],
+      brands: [{'name': 'Nike', filter: false},
+               {'name': 'Adidas', filter: false},
+               {'name': 'Reebok', filter: false}],
+      priceRange: {
+        value: [0, 1000],
+        max: 1000,
+        min: 0,
+        width: '100%',
+        height: 3,
+        dotSize: 10,
+        disabled: false,
+        show: true,
+        useKeyboard: true,
+        tooltip: 'always',
+        tooltipDir: ['bottom', 'bottom'],
+        formatter: '{value}',
+        overlapFormatter: '{value1} ~ {value2}',
+        bgStyle: {
+          backgroundColor: '#fff',
+          boxShadow: 'inset 0.5px 0.5px 3px 1px rgba(0,0,0,.20)'
+        },
+        tooltipStyle: {
+          backgroundColor: 'hsl(171, 100%, 41%)',
+          borderColor: 'hsl(171, 100%, 41%)'
+        },
+        processStyle: {
+          backgroundColor: 'hsl(171, 100%, 41%)'
+        }
+      }
     }
+  },
+  components: {
+    vueSlider
   },
   mounted () {
     this.getProducts()
+  },
+  computed: {
+    filteredProducts: function () {
+      var filteredBrands = []
+      for (var i = 0; i < this.brands.length; i++) {
+        if (this.brands[i].filter) {
+          filteredBrands.push(this.brands[i].name)
+        }
+      }
+      return this.products.filter(product => {
+        console.log(product.brand)
+        console.log(filteredBrands)
+        return product.price >= this.priceRange.value[0] && product.price <= this.priceRange.value[1] &&
+        (this.brands.every(a => {return !a.filter}) || filteredBrands.includes(product.brand))
+      })
+    }
   },
   methods: {
     async getProducts () {
