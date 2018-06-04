@@ -25,7 +25,7 @@
               <div class="card">
                 <div class="card-image">
                   <figure class="image">
-                    <img src="../assets/adidas-nmd-runner-triple-white.jpg">
+                    <img v-bind:src="'http://localhost:3000/uploads/' + product.filename" />
                   </figure>
                 </div>
                 <div class="card-content">
