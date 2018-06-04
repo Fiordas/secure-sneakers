@@ -5,7 +5,9 @@ import App from './App'
 import router from './router'
 import store from './store'
 import '../node_modules/bulma/css/bulma.css'
-import '../node_modules/font-awesome/css/font-awesome.css'
+import '@fortawesome/fontawesome'
+import '@fortawesome/fontawesome-free-brands'
+import '@fortawesome/fontawesome-free-solid'
 
 Vue.config.productionTip = false
 
