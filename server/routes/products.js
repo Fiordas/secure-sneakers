@@ -83,7 +83,7 @@ router.get('/edit/:id', (req, res) => {
 // Update product
 router.put('/:id', (req, res) => {
     var db = req.db;
-    Product.findById(req.params.id, 'name brand description stock price', function (error, product) {
+    Product.findById(req.params.id, 'name brand description stock price filename', function (error, product) {
         if (error) { console.error(error); }
 
         product.name = req.body.name
@@ -91,6 +91,7 @@ router.put('/:id', (req, res) => {
         product.description = req.body.description
         product.stock = req.body.stock
         product.price = req.body.price
+        product.filename = req.body.filename
         product.save(function (error) {
             if (error) {
                 console.log(error)
