@@ -47,10 +47,10 @@
 </template>
 
 <script>
-  import ProductsService from '@/services/ProductsService'
-  export default {
+import ProductsService from '@/services/ProductsService'
+export default {
   name: 'products',
-    data () {
+  data () {
     return {
       products: []
     }
@@ -62,9 +62,9 @@
     async getProducts () {
       const response = await ProductsService.fetchProducts()
       this.products = response.data.products
-      }
     }
   }
+}
 </script>
 
 <style>
