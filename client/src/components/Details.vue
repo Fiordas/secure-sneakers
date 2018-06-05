@@ -28,7 +28,6 @@
             </div>
             <br>
             <button class="button is-primary" v-on:click="counter += 1">Add to chart</button>
-            <p>Total: {{ counter }} quantity.</p>
             <br>
           </div>
         </div>

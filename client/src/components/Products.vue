@@ -3,7 +3,7 @@
     <h1 class="title">Products</h1>
     <div class="columns">
       <div class="column is-one-fifth">
-        <h4 class="subtitle is-4">Search</h4>
+        <h4 class="subtitle is-4">Filter</h4>
         <label class="label">Brand</label>
         <div class="field" v-for="(brand, i) in brands" v-bind:key="brand.name">
           <div class="control b-checkbox is-primary is-inline">
@@ -150,8 +150,8 @@ export default {
         {'number': 47, filter: false}
       ],
       priceRange: {
-        value: [0, 1000],
-        max: 1000,
+        value: [0, 300],
+        max: 300,
         min: 0,
         width: '100%',
         height: 3,

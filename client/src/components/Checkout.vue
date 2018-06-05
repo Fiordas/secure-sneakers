@@ -222,7 +222,8 @@ export default {
           brand: itemToCheck.brand,
           description: itemToCheck.description,
           stock: updatedItem.stock,
-          price: itemToCheck.price
+          price: itemToCheck.price,
+          filename: itemToCheck.filename
         })
       })
 
