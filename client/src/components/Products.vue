@@ -6,13 +6,14 @@
         <h4 class="subtitle is-4">Filter</h4>
         <label class="label">Brand</label>
         <div class="field" v-for="(brand, i) in brands" v-bind:key="brand.name">
-          <div class="control b-checkbox is-primary is-inline">
-            <input v-bind:id="brand.name" type="checkbox" class="styled" v-model="brands[i].filter">
+          <div class="control">
+            <input v-bind:id="brand.name" type="checkbox" v-model="brands[i].filter">
             <label v-bind:for="brand.name"> {{brand.name}}</label>
           </div>
         </div>
         <div class="field">
-          <label class="label">Price</label>
+          <label style="margin-bottom: 20px;" class="label">Price</label>
+          <br>
           <div class="field-body">
             <div class="field">
               <p class="control">
@@ -21,13 +22,12 @@
             </div>
           </div>
         </div>
-        <br/> <br/>
+        <label style="margin-bottom: 20px" class="label">Size</label>
         <div class="field">
-          <label class="label">Size</label>
           <div class="columns is-multiline">
             <div class="colum" v-for ="(size, i) in sizes" v-bind:key="size.number">
-              <div class="card">
-                <a href="#" class="cell" :class="{'active': size.filter}" @click.prevent = "setActive(i)">{{size.number}}</a>
+              <div class="buttons has-addons">
+                <span class="button" :class="{'active': size.filter}" @click.prevent = "setActive(i)">{{size.number}}</span>
               </div>
             </div>
           </div>
@@ -153,14 +153,14 @@ export default {
         value: [0, 300],
         max: 300,
         min: 0,
-        width: '100%',
+        width: '93%',
         height: 3,
         dotSize: 10,
         disabled: false,
         show: true,
         useKeyboard: true,
         tooltip: 'always',
-        tooltipDir: ['bottom', 'bottom'],
+        tooltipDir: ['top', 'top'],
         formatter: '€{value}',
         overlapFormatter: '€{value1} ~ €{value2}',
         bgStyle: {
