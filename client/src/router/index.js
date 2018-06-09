@@ -34,7 +34,8 @@ export default new Router({
       name: 'Panel',
       component: Panel,
       beforeEnter (to, from, next) {
-        if (store.state.admin) {
+        const user = store.getters.user
+        if (user && user.admin) {
           next()
         } else {
           next('/signin')
@@ -46,7 +47,8 @@ export default new Router({
       name: 'AddProduct',
       component: AddProduct,
       beforeEnter (to, from, next) {
-        if (store.state.admin) {
+        const user = store.getters.user
+        if (user && user.admin) {
           next()
         } else {
           next('/signin')
@@ -58,7 +60,8 @@ export default new Router({
       name: 'EditProduct',
       component: EditProduct,
       beforeEnter (to, from, next) {
-        if (store.state.admin) {
+        const user = store.getters.user
+        if (user && user.admin) {
           next()
         } else {
           next('/signin')
@@ -74,22 +77,54 @@ export default new Router({
     {
       path: '/signup',
       name: 'SignUp',
-      component: SignUp
-      /*
+      component: SignUp,
       beforeEnter (to, from, next) {
-        if (store.state.token) {
+        if (store.state.auth === null) {
+          const watch = store.watch(
+            () => store.getters['isAuthenticated']
+            , isLoggedIn => {
+              if (isLoggedIn === true) {
+                alert('You are already signed in!')
+                next('/')
+                watch()
+              }
+              next()
+              watch()
+            }
+          )
+        } else if (store.state.auth === true) {
           alert('You are already signed in!')
           next('/')
         } else {
           next()
         }
       }
-      */
     },
     {
       path: '/signin',
       name: 'SignIn',
-      component: SignIn
+      component: SignIn,
+      beforeEnter (to, from, next) {
+        if (store.state.auth === null) {
+          const watch = store.watch(
+            () => store.getters['isAuthenticated']
+            , isLoggedIn => {
+              if (isLoggedIn === true) {
+                alert('You are already signed in!')
+                next('/')
+                watch()
+              }
+              next()
+              watch()
+            }
+          )
+        } else if (store.state.auth === true) {
+          alert('You are already signed in!')
+          next('/')
+        } else {
+          next()
+        }
+      }
     }
   ]
 })

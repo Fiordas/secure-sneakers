@@ -19,10 +19,11 @@ router.post('/signup', (req, res) => {
 
     userData.save(function (error) {
         if (error) {
-            console.log(error)
+            res.json({ success: false, message: 'User with this email already exists' });
         } else {
             const token = jwt.sign({
-                id: userData._id
+                id: userData._id,
+                admin: userData.admin
             }, 'secsneakers');
 
             res.send({
@@ -30,8 +31,7 @@ router.post('/signup', (req, res) => {
                 message: 'User data saved successfully!',
                 token: token,
                 expiresIn: 3600,
-                userId: userData._id,
-                admin: userData.admin // might be a security flaw
+                userId: userData._id
             });
         }
     });
@@ -40,10 +40,11 @@ router.post('/signup', (req, res) => {
 router.post('/signin', (req, res) => {
     User.authenticate(req.body.email, req.body.password, function (error, user) {
         if (error || !user) {
-            res.json({ success: false, message: 'Wrong email or password.' });
+            res.json({ success: false, message: 'Wrong email or password' });
         } else {
             const token = jwt.sign({
-                id: user._id
+                id: user._id,
+                admin: user.admin
             }, 'secsneakers');
 
             res.json({
@@ -51,8 +52,7 @@ router.post('/signin', (req, res) => {
                 message: 'User sign in successful!',
                 token: token,
                 expiresIn: 3600,
-                userId: user._id,
-                admin: user.admin // might be a security flaw
+                userId: user._id
             });
         }
     });

@@ -77,7 +77,12 @@ export default {
       return this.$store.getters.isAuthenticated
     },
     admin () {
-      return this.$store.getters.isAdmin
+      const user = this.$store.getters.user
+      if (user && user.admin) {
+        return true
+      } else {
+        return false
+      }
     },
     getCart () {
       return this.$store.getters.getCart
