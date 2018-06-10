@@ -28,6 +28,14 @@
             </div>
           </div>
 
+          <div class="field">
+            <vue-recaptcha
+              @verify="onVerify"
+              @expired="onExpired"
+              :sitekey="sitekey">
+            </vue-recaptcha>
+          </div>
+
           <div class="field submit">
             <button :class="{ 'is-disabled': emailError }" :disabled="afterSubmitError !== ''" class="button is-primary" type="submit">Sign In</button>
             <p class="help is-danger">{{afterSubmitError}}</p>
@@ -54,21 +62,35 @@
 </template>
 
 <script>
+import VueRecaptcha from 'vue-recaptcha'
 export default {
   name: 'SignIn',
+  components: { VueRecaptcha },
   data () {
     return {
       email: '',
       password: '',
       afterSubmitError: null,
-      emailError: null
+      emailError: null,
+
+      sitekey: '6LfPjVkUAAAAAKG9lFMFcGSm7IYk23cPTGA0lBUu',
+      challengeStatus: false
     }
+  },
+  mounted () {
+    let recaptchaScript = document.createElement('script')
+    recaptchaScript.setAttribute('src', 'https://www.google.com/recaptcha/api.js')
+    document.head.appendChild(recaptchaScript)
   },
   watch: {
 
   },
   methods: {
     onSubmit () {
+      if (!this.challengeStatus) {
+        return false
+      }
+
       const formData = {
         email: this.email,
         password: this.password
@@ -78,6 +100,13 @@ export default {
           this.afterSubmitError = result.data.message
         }
       })
+    },
+    onVerify: function (response) {
+      this.challengeStatus = true
+      console.log('Verify: ' + response)
+    },
+    onExpired: function () {
+      console.log('Expired')
     },
     checkEmailInputOnInput () {
       if (this.email === '') {

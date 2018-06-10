@@ -64,6 +64,14 @@
             <p class="help is-danger">{{confirmPasswordError}}</p>
           </div>
 
+          <div class="field">
+            <vue-recaptcha
+              @verify="onVerify"
+              @expired="onExpired"
+              :sitekey="sitekey">
+            </vue-recaptcha>
+          </div>
+
           <div class="field submit">
             <button class="button is-primary" type="submit">Submit</button>
             <p class="help is-danger">{{afterSubmitError}}</p>
@@ -111,9 +119,10 @@
 
 <script>
 import VuePassword from 'vue-password'
+import VueRecaptcha from 'vue-recaptcha'
 export default {
   name: 'SignUp',
-  components: {VuePassword},
+  components: { VuePassword, VueRecaptcha },
   data () {
     return {
       email: '',
@@ -124,8 +133,16 @@ export default {
       afterSubmitError: '',
       emailError: '',
       passwordError: '',
-      confirmPasswordError: ''
+      confirmPasswordError: '',
+
+      sitekey: '6LfPjVkUAAAAAKG9lFMFcGSm7IYk23cPTGA0lBUu',
+      challengeStatus: false
     }
+  },
+  mounted () {
+    let recaptchaScript = document.createElement('script')
+    recaptchaScript.setAttribute('src', 'https://www.google.com/recaptcha/api.js')
+    document.head.appendChild(recaptchaScript)
   },
   methods: {
     checkEmailOnInput () {
@@ -161,6 +178,10 @@ export default {
       if (this.password !== this.confirmPassword) this.confirmPasswordError = 'Password does not match'
     },
     onSubmit () {
+      if (!this.challengeStatus) {
+        return false
+      }
+
       // check error
       if (this.emailError || this.passwordError || this.confirmPasswordError || this.afterSubmitError) {
         this.afterSubmitError = 'Correct errors before submiting'
@@ -179,7 +200,14 @@ export default {
           this.afterSubmitError = result.data.message
         }
       })
-    }
+    },
+    onVerify: function (response) {
+      this.challengeStatus = true
+      console.log('Verify: ' + response)
+    },
+    onExpired: function () {
+      console.log('Expired')
+    },
   }
 }
 </script>
