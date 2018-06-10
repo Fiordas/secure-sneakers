@@ -31,8 +31,8 @@
                     <hr class="dropdown-divider">
                     <div class="dropdown-item">
                       <a @click="cartItemRemove(index)" class="delete is-medium is-pulled-right"></a>
-                      <p><strong>{{item.name}}</strong></p>
-                      <p>Size: {{item.amount.size}}, Quantity: {{item.amount.quantity}}</p>
+                      <p><strong>{{item.product.name}}</strong></p>
+                      <p>Size: {{item.size}}, Quantity: {{item.quantity}}</p>
                     </div>
                   </div>
                 </template>

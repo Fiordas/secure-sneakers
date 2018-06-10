@@ -49,7 +49,6 @@ export default new Vuex.Store({
         UsersService.addUser(authData)
           .then(res => {
             if (res.data.success) {
-              console.log(res)
               commit('authUser', {
                 token: res.data.token,
                 userId: res.data.userId
@@ -75,7 +74,6 @@ export default new Vuex.Store({
         UsersService.authenticateUser(authData)
           .then(res => {
             if (res.data.success) {
-              // console.log(res)
               commit('authUser', {
                 token: res.data.token,
                 userId: res.data.userId
@@ -132,6 +130,36 @@ export default new Vuex.Store({
           commit('storeUser', res.data.decoded)
         })
         .catch(error => console.log(error))
+    },
+    updateCart ({commit}, selectedPayload) {
+      if (!localStorage.getItem('cart')) {
+        const cartItems = [{
+          product: selectedPayload.selectedProduct,
+          size: selectedPayload.selectedSize,
+          quantity: 1
+        }]
+        localStorage.setItem('cart', JSON.stringify(cartItems))
+        commit('storeCart', cartItems)
+      } else {
+        const cartItems = JSON.parse(localStorage.getItem('cart'))
+        for (let i = 0, length = cartItems.length; i < length; i++) {
+          if (cartItems[i].product._id === selectedPayload.selectedProduct._id && cartItems[i].size === selectedPayload.selectedSize) {
+            cartItems[i].quantity++
+            localStorage.setItem('cart', JSON.stringify(cartItems))
+            commit('storeCart', cartItems)
+            return
+          }
+        }
+        // when new one
+        const addItem = {
+          product: selectedPayload.selectedProduct,
+          size: selectedPayload.selectedSize,
+          quantity: 1
+        }
+        cartItems.push(addItem)
+        localStorage.setItem('cart', JSON.stringify(cartItems))
+        commit('storeCart', cartItems)
+      }
     },
     storeCart ({commit}) {
       const cart = JSON.parse(localStorage.getItem('cart'))

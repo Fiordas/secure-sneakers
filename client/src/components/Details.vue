@@ -1,42 +1,50 @@
 <template>
   <div class="modal is-active">
     <div class="modal-background" @click="$router.go(-1)"></div>
-    <div class="modal-content">
-      <div class="box is-radiusless">
+    <div class="modal-card">
+      <header class="modal-card-head">
+        <p class="modal-card-title">Details</p>
+        <button class="delete is-medium" aria-label="close" @click="$router.go(-1)"></button>
+      </header>
+      <section class="modal-card-body">
         <div class="columns">
-          <div class="column is-two-thirds">
+          <div class="column is-three-fifths">
             <figure class="image">
-              <img v-bind:src="'http://localhost:3000/uploads/' + filename" />
+              <img v-if="product.filename" v-bind:src="'http://localhost:3000/uploads/' + product.filename" />
             </figure>
           </div>
           <div class="column">
             <div class="">
               <div class="">
-                <p class="title is-4">{{ name }}</p>
-                <p class="subtitle is-6">{{ brand }}</p>
-                <p>€ {{price}}</p>
+                <p class="title is-4">{{ product.name }}</p>
+                <p class="subtitle is-6">{{ product.brand }}</p>
+                <p>€ {{ product.price }}</p>
               </div>
             </div>
             <br>
             <div class="field">
-              <label class="label">Size:</label>
-              <div class="select">
-                <select>
-                  <option v-for="s in stock" :key="s.id" v-if="s.quantity>0">{{s.size}}</option>
-                </select>
+              <label class="label">Sizes available:</label>
+              <div class="buttons has-addons">
+                <template v-for="(stock, stockIndex) in product.stock">
+                  <template v-if="stock.quantity > 0">
+                    <span @click="addOrder(stockIndex, product, stock.size)" v-bind:key="stockIndex" class="button is-primary is-outlined">{{stock.size}}</span>
+                  </template>
+                  <template v-else>
+                    <span v-bind:key="stockIndex" disabled class="button">{{stock.size}}</span>
+                  </template>
+                </template>
               </div>
+              <small>* press to add selected size to cart</small>
             </div>
-            <br>
-            <button class="button is-primary" v-on:click="counter += 1">Add to chart</button>
-            <br>
           </div>
         </div>
-        <div>
-          <p>{{description}}</p>
+        <div class="field">
+          <label class="label">About the product:</label>
+          <p>{{ product.description }}</p>
         </div>
-      </div>
+      </section>
+      <footer class="modal-card-foot"></footer>
     </div>
-    <button class="modal-close is-large" aria-label="close" @click="$router.go(-1)"></button>
   </div>
 </template>
 
@@ -46,29 +54,38 @@ export default {
   name: 'Details',
   data () {
     return {
-      id: '',
-      name: '',
-      brand: '',
-      description: '',
-      stock: [ ],
-      price: 0,
-      filename: ''
+      product: [],
+      cart: [],
+      id: ''
     }
   },
-  mounted () {
+  created () {
+    this.cart = this.$store.getters.getCart
     this.getProduct()
   },
   methods: {
     async getProduct () {
-      const response = await ProductsService.getProduct({
+      await ProductsService.getProduct({
         id: this.$route.params.id
+      }).then((response) => {
+        if (this.cart) {
+          this.cart.reduceRight(function (acc, item) {
+            if (response.data._id === item.product._id) {
+              const stockIndex = response.data.stock.findIndex(stock => stock.size === item.size)
+              response.data.stock[stockIndex].quantity -= item.quantity
+            }
+          }, [])
+        }
+        this.product = response.data
       })
-      this.name = response.data.name
-      this.brand = response.data.brand
-      this.description = response.data.description
-      this.stock = response.data.stock
-      this.price = response.data.price
-      this.filename = response.data.filename
+    },
+    addOrder (stockIndex, selectedProduct, selectedSize) {
+      this.product.stock[stockIndex].quantity -= 1
+      const selectedPayload = {
+        selectedProduct: selectedProduct,
+        selectedSize: selectedSize
+      }
+      this.$store.dispatch('updateCart', selectedPayload)
     }
   }
 }

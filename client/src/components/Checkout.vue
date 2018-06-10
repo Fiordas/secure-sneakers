@@ -22,16 +22,16 @@
           <article class="media" v-for="(item, index) in cart" v-bind:key="index">
             <figure class="media-left">
               <p class="image is-64x64">
-                <img v-bind:src="'http://localhost:3000/uploads/' + item.filename">
+                <img v-bind:src="'http://localhost:3000/uploads/' + item.product.filename">
               </p>
             </figure>
             <div class="media-content">
               <div class="content">
                 <div class="columns">
-                  <div class="column is-one-fourth"><strong>{{item.name}}</strong><br>Brand</div>
-                  <div class="column is-one-fourth">{{item.amount.size}}</div>
-                  <div class="column is-one-fourth">{{item.amount.quantity}}</div>
-                  <div class="column is-one-fourth">€{{item.price}}.00</div>
+                  <div class="column is-one-fourth"><strong>{{item.product.name}}</strong><br>{{item.product.brand}}</div>
+                  <div class="column is-one-fourth">{{item.size}}</div>
+                  <div class="column is-one-fourth">{{item.quantity}}</div>
+                  <div class="column is-one-fourth">€{{item.product.price}}.00</div>
                 </div>
               </div>
             </div>
@@ -199,9 +199,9 @@ export default {
       let outOfStockFound = false
 
       this.cart.forEach(function (item) {
-        const itemToCheck = response.data.products.find(products => products._id === item.productId)
-        const result = itemToCheck.stock.find(stock => stock._id === item.amount.stockId)
-        if (result.quantity < item.amount.quantity) {
+        const itemToCheck = response.data.products.find(products => products._id === item.product.productId)
+        const result = itemToCheck.stock.find(stock => stock.size === item.size)
+        if (result.quantity < item.quantity) {
           outOfStockFound = true
         }
       })
@@ -211,13 +211,13 @@ export default {
       }
 
       this.cart.forEach(async function (item) {
-        const itemToCheck = response.data.products.find(products => products._id === item.productId)
-        const result = itemToCheck.stock.findIndex(stock => stock._id === item.amount.stockId)
+        const itemToCheck = response.data.products.find(products => products._id === item.product.productId)
+        const result = itemToCheck.stock.findIndex(stock => stock.size === item.size)
         let updatedItem = itemToCheck
         updatedItem.stock[result].quantity--
 
         await ProductsService.updateProduct({
-          id: item.productId,
+          id: itemToCheck.productId,
           name: itemToCheck.name,
           brand: itemToCheck.brand,
           description: itemToCheck.description,
@@ -253,9 +253,11 @@ export default {
   },
   computed: {
     calculateTotal: function () {
+      // eslint-disable-next-line
+      this.totalPrice = 0
       for (const item of this.cart) {
         // eslint-disable-next-line
-        this.totalPrice += item.amount.quantity * item.price
+        this.totalPrice += item.quantity * item.product.price
       }
       return this.totalPrice
     }

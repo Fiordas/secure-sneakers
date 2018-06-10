@@ -38,7 +38,8 @@ export default new Router({
         if (user && user.admin) {
           next()
         } else {
-          next('/signin')
+          alert('Permission denied!')
+          next('/')
         }
       }
     },
@@ -51,7 +52,8 @@ export default new Router({
         if (user && user.admin) {
           next()
         } else {
-          next('/signin')
+          alert('Permission denied!')
+          next('/')
         }
       }
     },
@@ -64,7 +66,8 @@ export default new Router({
         if (user && user.admin) {
           next()
         } else {
-          next('/signin')
+          alert('Permission denied!')
+          next('/')
         }
       }
     },

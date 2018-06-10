@@ -55,31 +55,31 @@
                     <p class="limited-text">{{ product.description }}</p>
                   </div>
                   <router-link v-bind:to="{ name: 'Details', params: { id: product._id } }" class="button is-primary is-outlined">Details</router-link>
-                  <p class="buttons is-pulled-right">
+                  <div class="buttons is-pulled-right">
                     <router-link v-bind:to="{ name: 'Details', params: { id: product._id } }" class="button is-primary is-outlined"><i class="fa fa-star"></i></router-link>
-                  </p>
 
-                  <div @click.stop :class="{ 'is-active': activeItemId === index }" class="dropdown is-pulled-right">
-                    <div>
-                      <button @click="setActiveItemId(index)" class="button is-primary is-outlined" aria-haspopup="true" aria-controls="dropdown-menu2"><i class="fa fa-shopping-basket"></i></button>
-                    </div>
-                    <div v-on-clickaway="closeDropdown" class="dropdown-menu" role="menu">
-                      <div class="dropdown-content">
-                        <div class="dropdown-item">
-                          <p>Select size:</p>
-                          <hr class="dropdown-divider">
-                          <div class="buttons has-addons">
-                            <template v-for="(stocks, cartIndex) in product.stock">
-                              <template v-if="stocks.quantity > 0">
-                                <span @click="addOrder(index, cartIndex, product._id, product.name, product.filename, stocks._id, stocks.size, product.price)" v-bind:key="cartIndex" class="button">{{stocks.size}}</span>
+                    <div @click.stop :class="{ 'is-active': activeItemId === index }" class="dropdown is-pulled-right">
+                      <div>
+                        <button @click="setActiveItemId(index)" class="button is-primary is-outlined" aria-haspopup="true" aria-controls="dropdown-menu2"><i class="fa fa-shopping-basket"></i></button>
+                      </div>
+                      <div v-on-clickaway="closeDropdown" class="dropdown-menu" role="menu">
+                        <div class="dropdown-content">
+                          <div class="dropdown-item">
+                            <p>Select size:</p>
+                            <hr class="dropdown-divider">
+                            <div class="buttons has-addons">
+                              <template v-for="(stocks, stockIndex) in product.stock">
+                                <template v-if="stocks.quantity > 0">
+                                  <span @click="addOrder(index, stockIndex, product, stocks.size)" v-bind:key="stockIndex" class="button">{{stocks.size}}</span>
+                                </template>
                               </template>
-                            </template>
+                            </div>
                           </div>
                         </div>
                       </div>
                     </div>
-                  </div>
 
+                  </div>
                 </div>
               </div>
             </div>
@@ -107,29 +107,8 @@ export default {
   data () {
     return {
       products: [],
+      cart: [],
       activeItemId: '',
-      cartItems: [{
-        productId: '',
-        name: '',
-        filename: '',
-        amount: {
-          stockId: '',
-          size: 0,
-          quantity: 0
-        },
-        price: 0
-      }],
-      addItem: {
-        productId: '',
-        name: '',
-        filename: '',
-        amount: {
-          stockId: '',
-          size: 0,
-          quantity: 0
-        },
-        price: 0
-      },
       brands: [
         {'name': 'Nike', filter: false},
         {'name': 'Adidas', filter: false},
@@ -180,7 +159,8 @@ export default {
   components: {
     vueSlider
   },
-  mounted () {
+  created () {
+    this.cart = this.$store.getters.getCart
     this.getProducts()
   },
   computed: {
@@ -213,52 +193,37 @@ export default {
   },
   methods: {
     async getProducts () {
-      const response = await ProductsService.fetchProducts()
-      this.products = response.data.products
+      await ProductsService.fetchProducts().then((response) => {
+        let removed = false
+        if (this.cart) {
+          this.cart.reduceRight(function (acc, item, index, object) {
+            const productIndex = response.data.products.findIndex(products => products._id === item.product._id)
+            if (productIndex !== -1) {
+              const stockIndex = response.data.products[productIndex].stock.findIndex(stock => stock.size === item.size)
+              if (response.data.products[productIndex].stock[stockIndex].quantity < item.quantity) {
+                removed = true
+                object.splice(index, 1)
+              } else {
+                response.data.products[productIndex].stock[stockIndex].quantity -= item.quantity
+              }
+            }
+          }, [])
+        }
+        this.products = response.data.products
+        if (removed) {
+          alert('One or more items in your cart went out of stock and has been removed!')
+          localStorage.setItem('cart', JSON.stringify(this.cart))
+          this.$store.dispatch('storeCart')
+        }
+      })
     },
-    addOrder (productIndex, cartIndex, selectedProductId, selectedName, selectedFileName, selectedStockId, selectedSize, selectedPrice) {
-      this.products[productIndex].stock[cartIndex].quantity -= 1
-
-      if (!localStorage.getItem('cart')) {
-        this.cartItems = [{
-          productId: selectedProductId,
-          name: selectedName,
-          filename: selectedFileName,
-          amount: {
-            stockId: selectedStockId,
-            size: selectedSize,
-            quantity: 1
-          },
-          price: selectedPrice
-        }]
-        localStorage.setItem('cart', JSON.stringify(this.cartItems))
-        this.$store.dispatch('storeCart')
-      } else {
-        this.cartItems = JSON.parse(localStorage.getItem('cart'))
-        for (let i = 0, length = this.cartItems.length; i < length; i++) {
-          if (this.cartItems[i].productId === selectedProductId && this.cartItems[i].amount.size === selectedSize) {
-            this.cartItems[i].amount.quantity++
-            localStorage.setItem('cart', JSON.stringify(this.cartItems))
-            this.$store.dispatch('storeCart')
-            return
-          }
-        }
-        // when new one
-        this.addItem = {
-          productId: selectedProductId,
-          name: selectedName,
-          filename: selectedFileName,
-          amount: {
-            stockId: selectedStockId,
-            size: selectedSize,
-            quantity: 1
-          },
-          price: selectedPrice
-        }
-        this.cartItems.push(this.addItem)
-        localStorage.setItem('cart', JSON.stringify(this.cartItems))
-        this.$store.dispatch('storeCart')
+    addOrder (productIndex, stockIndex, selectedProduct, selectedSize) {
+      this.products[productIndex].stock[stockIndex].quantity -= 1
+      const selectedPayload = {
+        selectedProduct: selectedProduct,
+        selectedSize: selectedSize
       }
+      this.$store.dispatch('updateCart', selectedPayload)
     },
     setActiveItemId (itemIndex) {
       if (this.activeItemId === '') {
