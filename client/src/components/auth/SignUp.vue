@@ -134,7 +134,6 @@ export default {
       emailError: '',
       passwordError: '',
       confirmPasswordError: '',
-
       sitekey: '6LfPjVkUAAAAAKG9lFMFcGSm7IYk23cPTGA0lBUu',
       challengeStatus: false
     }
@@ -179,6 +178,7 @@ export default {
     },
     onSubmit () {
       if (!this.challengeStatus) {
+        this.afterSubmitError = 'Failed to confirm captcha'
         return false
       }
 
@@ -203,11 +203,13 @@ export default {
     },
     onVerify: function (response) {
       this.challengeStatus = true
+      this.afterSubmitError = ''
       console.log('Verify: ' + response)
     },
     onExpired: function () {
+      this.afterSubmitError = 'Captcha expired'
       console.log('Expired')
-    },
+    }
   }
 }
 </script>

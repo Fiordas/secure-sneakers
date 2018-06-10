@@ -63,6 +63,7 @@
 
 <script>
 import VueRecaptcha from 'vue-recaptcha'
+
 export default {
   name: 'SignIn',
   components: { VueRecaptcha },
@@ -72,7 +73,6 @@ export default {
       password: '',
       afterSubmitError: null,
       emailError: null,
-
       sitekey: '6LfPjVkUAAAAAKG9lFMFcGSm7IYk23cPTGA0lBUu',
       challengeStatus: false
     }
@@ -88,6 +88,7 @@ export default {
   methods: {
     onSubmit () {
       if (!this.challengeStatus) {
+        this.afterSubmitError = 'Failed to confirm captcha'
         return false
       }
 
@@ -103,9 +104,11 @@ export default {
     },
     onVerify: function (response) {
       this.challengeStatus = true
+      this.afterSubmitError = ''
       console.log('Verify: ' + response)
     },
     onExpired: function () {
+      this.afterSubmitError = 'Captcha expired'
       console.log('Expired')
     },
     checkEmailInputOnInput () {
