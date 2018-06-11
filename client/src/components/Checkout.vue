@@ -22,7 +22,7 @@
           <article class="media" v-for="(item, index) in cart" v-bind:key="index">
             <figure class="media-left">
               <p class="image is-64x64">
-                <img v-bind:src="'http://localhost:3000/uploads/' + item.product.filename">
+                <img v-bind:src="'https://localhost:3000/uploads/' + item.product.filename">
               </p>
             </figure>
             <div class="media-content">

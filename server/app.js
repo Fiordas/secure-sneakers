@@ -56,12 +56,3 @@ app.use(function(err, req, res, next) {
 });
 
 module.exports = app;
-
-// server can be accessed with ssl from https://localhost:1234
-var https = require('https');
-var fs = require('fs');
-var options = {
-    key: fs.readFileSync('../certs/server.key'),
-    cert: fs.readFileSync('../certs/server.cert')
-};
-var server = https.createServer(options, app).listen(1234);

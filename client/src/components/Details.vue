@@ -10,7 +10,7 @@
         <div class="columns">
           <div class="column is-three-fifths">
             <figure class="image">
-              <img v-if="product.filename" v-bind:src="'http://localhost:3000/uploads/' + product.filename" />
+              <img v-if="product.filename" v-bind:src="'https://localhost:3000/uploads/' + product.filename" />
             </figure>
           </div>
           <div class="column">

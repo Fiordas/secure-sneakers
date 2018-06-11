@@ -41,7 +41,7 @@
               <div class="card">
                 <div class="card-image">
                   <figure class="image">
-                    <img v-bind:src="'http://localhost:3000/uploads/' + product.filename" />
+                    <img v-bind:src="'https://localhost:3000/uploads/' + product.filename" />
                   </figure>
                 </div>
                 <div class="card-content">
