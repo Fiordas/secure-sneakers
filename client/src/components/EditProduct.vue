@@ -71,7 +71,7 @@
             </label>
           </div>
           <img v-if="imageUrl" :src="imageUrl" />
-          <img v-if="!imageUrl && filename" :src="'https://localhost:3000/uploads/' + filename" />
+          <img v-if="!imageUrl && filename" :src="'http://localhost:3000/uploads/' + filename" />
         </div>
         <div>
           <button class="button is-primary is-pulled-right" @click="updateProduct">Update</button>
