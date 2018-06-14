@@ -3,6 +3,7 @@ var router = express.Router();
 var Product = require('../models/product');
 var multer  = require('multer');
 var path = require('path');
+const { check, validationResult } = require('express-validator/check');
 
 // multer configuration
 var storage = multer.diskStorage({
@@ -10,7 +11,6 @@ var storage = multer.diskStorage({
     cb(null, 'public/uploads/')
   },
   filename: function (req, file, cb) {
-    console.log(req)
     cb(null, file.originalname)
   }
 });
@@ -72,8 +72,13 @@ router.post('/', (req, res) => {
 })
 
 // Fetch single product
-router.get('/edit/:id', (req, res) => {
-    var db = req.db;
+router.get('/edit/:id', check('id').isMongoId(), (req, res) => {
+
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(422).json({ errors: errors.array() });
+    }
+
     Product.findById(req.params.id, 'name brand description stock price filename', function (error, product) {
         if (error) { console.error(error); }
         res.send(product)

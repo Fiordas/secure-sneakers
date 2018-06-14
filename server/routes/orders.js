@@ -1,9 +1,25 @@
 var express = require('express');
 var router = express.Router();
 var Order = require('../models/order');
+const { check, validationResult } = require('express-validator/check');
 
 // Add new order
-router.post('/', (req, res) => {
+router.post('/', [
+    check('customerName')
+        .not().isEmpty()
+        .trim()
+        .escape(),
+    check('customerAdress')
+        .not().isEmpty()
+        .trim()
+        .escape()
+    ], (req, res) => {
+
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(422).json({ errors: errors.array() });
+    }
+
     var customerName = req.body.customerName;
     var customerAdress = req.body.customerAdress;
     var items = req.body.items;

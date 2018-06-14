@@ -2,19 +2,39 @@ const express = require('express');
 const jwt = require('jsonwebtoken');
 const router = express.Router();
 const User = require('../models/user');
+const { check, validationResult } = require('express-validator/check');
 
-router.post('/signup', (req, res) => {
+router.post('/signup', [
+    check('email')
+        .isEmail()
+        .normalizeEmail(),
+    check('firstName')
+        .not().isEmpty()
+        .trim()
+        .escape(),
+    check('lastName')
+        .not().isEmpty()
+        .trim()
+        .escape(),
+    check('password')
+        .isLength({ min: 6 })
+        .escape()
+    ], (req, res) => {
+
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(422).json({ errors: errors.array() });
+    }
+
     const email = req.body.email;
     const firstName = req.body.firstName;
     const lastName = req.body.lastName;
     const password = req.body.password;
-    const confirmPassword = req.body.confirmPassword;
     const userData = new User({
         email: email,
         firstName: firstName,
         lastName: lastName,
-        password: password,
-        confirmPassword: confirmPassword
+        password: password
     });
 
     userData.save(function (error) {
@@ -24,7 +44,7 @@ router.post('/signup', (req, res) => {
             const token = jwt.sign({
                 id: userData._id,
                 admin: userData.admin
-            }, 'secsneakers');
+            }, 'chickenhorsepizzadubstep');
 
             res.send({
                 success: true,
@@ -37,7 +57,15 @@ router.post('/signup', (req, res) => {
     });
 });
 
-router.post('/signin', (req, res) => {
+router.post('/signin', [
+    check('email')
+        .isEmail()
+        .normalizeEmail(),
+    check('password')
+        .isLength({ min: 6 })
+        .escape()
+    ], (req, res) => {
+
     User.authenticate(req.body.email, req.body.password, function (error, user) {
         if (error || !user) {
             res.json({ success: false, message: 'Wrong email or password' });
@@ -45,7 +73,7 @@ router.post('/signin', (req, res) => {
             const token = jwt.sign({
                 id: user._id,
                 admin: user.admin
-            }, 'secsneakers');
+            }, 'chickenhorsepizzadubstep');
 
             res.json({
                 success: true,
@@ -63,7 +91,7 @@ router.get('/:token', (req, res) => {
     // decode token
     if (token) {
         // verifies secret and checks exp
-        jwt.verify(token, 'secsneakers', function(err, decoded) {
+        jwt.verify(token, 'chickenhorsepizzadubstep', function(err, decoded) {
             if (err) {
                 return res.json({ success: false, message: 'Failed to authenticate token.' });
             } else {

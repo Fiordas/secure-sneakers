@@ -140,7 +140,7 @@ export default {
   },
   mounted () {
     let recaptchaScript = document.createElement('script')
-    recaptchaScript.setAttribute('src', 'https://www.google.com/recaptcha/api.js')
+    recaptchaScript.setAttribute('src', 'https://www.google.com/recaptcha/api.js?onload=vueRecaptchaApiLoaded&render=explicit')
     document.head.appendChild(recaptchaScript)
   },
   methods: {
@@ -204,11 +204,9 @@ export default {
     onVerify: function (response) {
       this.challengeStatus = true
       this.afterSubmitError = ''
-      console.log('Verify: ' + response)
     },
     onExpired: function () {
       this.afterSubmitError = 'Captcha expired'
-      console.log('Expired')
     }
   }
 }

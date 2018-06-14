@@ -126,7 +126,6 @@ export default new Vuex.Store({
       }
       UsersService.fetchUser({ token: state.token })
         .then(res => {
-          console.log(res)
           commit('storeUser', res.data.decoded)
         })
         .catch(error => console.log(error))

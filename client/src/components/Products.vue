@@ -17,7 +17,7 @@
           <div class="field-body">
             <div class="field">
               <p class="control">
-                <vue-slider v-bind="priceRange" v-model="priceRange.value"></vue-slider>
+                <vue-slider ref="slider" v-bind="priceRange" v-model="priceRange.value"></vue-slider>
               </p>
             </div>
           </div>
@@ -129,8 +129,8 @@ export default {
         {'number': 47, filter: false}
       ],
       priceRange: {
-        value: [0, 300],
-        max: 300,
+        value: [0, 1000],
+        max: 1000,
         min: 0,
         width: '93%',
         height: 3,
@@ -210,6 +210,11 @@ export default {
           }, [])
         }
         this.products = response.data.products
+        this.priceRange.min = Math.min.apply(Math, this.products.map(function (o) { return o.price }))
+        this.priceRange.max = Math.max.apply(Math, this.products.map(function (o) { return o.price }))
+        const min = Math.min.apply(Math, this.products.map(function (o) { return o.price }))
+        const max = Math.max.apply(Math, this.products.map(function (o) { return o.price }))
+        this.$refs.slider.setValue([min, max])
         if (removed) {
           alert('One or more items in your cart went out of stock and has been removed!')
           localStorage.setItem('cart', JSON.stringify(this.cart))

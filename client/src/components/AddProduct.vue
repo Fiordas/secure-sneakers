@@ -1,7 +1,7 @@
 <template>
   <div>
     <h1 class="title">Add Product</h1>
-    <dvi class="columns">
+    <div class="columns">
       <div class="column is-one-third">
         <div class="field">
           <label class="label">Name</label>
@@ -78,7 +78,7 @@
           <button class="button is-primary is-pulled-right" @click="addProduct">Add</button>
         </div>
       </div>
-    </dvi>
+    </div>
   </div>
 </template>
 
